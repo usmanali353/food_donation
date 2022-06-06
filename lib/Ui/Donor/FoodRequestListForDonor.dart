@@ -28,13 +28,13 @@ class FoodRequestListForDonor extends GetView<DonorController> {
           ),
 
           ),
-          actions: [
-            IconButton(onPressed: (){
-              Geolocator.getCurrentPosition().then((position){
-                print(Geolocator.distanceBetween(position.latitude, position.longitude, 32.5691129320724, 74.0745348483324));
-              });
-            }, icon: Icon(Icons.filter))
-          ],
+          // actions: [
+          //   IconButton(onPressed: (){
+          //     Geolocator.getCurrentPosition().then((position){
+          //       print(Geolocator.distanceBetween(position.latitude, position.longitude, 32.5691129320724, 74.0745348483324));
+          //     });
+          //   }, icon: Icon(Icons.filter))
+          // ],
         ),
 
         body: RefreshIndicator(

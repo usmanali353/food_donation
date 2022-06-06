@@ -31,7 +31,7 @@ class ReceiverRequestList extends GetView<ReceiverController> {
           {
             return await controller.getFoodRequests(context);
           },
-          child: Obx(() => ListView.builder(itemCount:controller.foodRequests.length==0?5:controller.foodRequests.length, itemBuilder: (context, index){
+          child: Obx(() => ListView.builder(itemCount:controller.foodRequests.length, itemBuilder: (context, index){
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
