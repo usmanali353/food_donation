@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "326351781574",
+    "firebase_url": "https://tourguide-bda40.firebaseio.com",
+    "project_id": "tourguide-bda40",
+    "storage_bucket": "tourguide-bda40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326351781574:android:802d9092e2e717e43561c7",
+        "android_client_info": {
+          "package_name": "iib.tech.food_donation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "326351781574-3e8f86jhtr612imlqted1uim9a4fl984.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "iib.tech.food_donation",
+            "certificate_hash": "928dcbc63d9a2de293249298281dee9bded5826b"
+          }
+        },
+        {
+          "client_id": "326351781574-ctdq0ou838gtvo4pm6ovj4qrjt1t8u7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDreBgeVbPncQMsBKVv4MPFXirmDsLMz2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "326351781574-ctdq0ou838gtvo4pm6ovj4qrjt1t8u7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
