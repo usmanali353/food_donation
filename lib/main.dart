@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Ui/Auth/SplashScreen.dart';
 import 'Ui/Donor/DonorHome.dart';
 import 'Ui/Receiver/ReceiverHome.dart';
-import 'Utils/Constants.dart';
 import 'Utils/Locator.dart';
 
 void main() async{

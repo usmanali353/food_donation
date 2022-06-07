@@ -34,7 +34,7 @@ class DonationDetailsScreen extends StatelessWidget{
         if(isHistory!=null&&isHistory==true){
           this.donations.addAll(Get.find<ReceiverController>().donated);
         }else{
-          this.donations.addAll(Get.find<ReceiverController>().donations);
+          this.donations.addAll(Get.find<ReceiverController>().filteredList);
         }
       }
     }

@@ -28,7 +28,7 @@ class FoodRequestDetailPage extends StatelessWidget {
         if(isHistory!=null&&isHistory==true){
           this.requests.addAll(Get.find<DonorController>().fulfilledRequests);
         }else{
-          this.requests.addAll(Get.find<DonorController>().foodRequests);
+          this.requests.addAll(Get.find<DonorController>().filteredList);
         }
         print(this.requests[index!].lat.toString());
         print(this.requests[index!].lng.toString());

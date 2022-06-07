@@ -7,6 +7,8 @@ import 'package:food_donation/Models/Donation.dart';
 import 'package:food_donation/Models/userData.dart';
 import 'package:food_donation/Ui/Receiver/ReceiverHome.dart';
 import 'package:food_donation/Utils/Address.dart';
+import 'package:food_donation/Utils/Constants.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,6 +28,9 @@ class ReceiverController extends GetxController{
   var donations=[].obs;
   var donated=[].obs;
  var fulfilledRequests=[].obs;
+ var filteredList=[].obs;
+ var _selected=[].obs;
+ Rx<double> sliderValue=1.0.obs;
  late IReceiverRepository receiverRepository;
  Rx<bool> addingFoodRequest=false.obs;
   void onInit(){
@@ -97,6 +102,8 @@ class ReceiverController extends GetxController{
    if(isConnected){
      List<Donation> donationsList=await receiverRepository.getUnReceivedDonations(context);
      donations.clear();
+     filteredList.clear();
+     filteredList.assignAll(donationsList);
      donations.assignAll(donationsList);
      log("Un Received Donations "+donationsList.length.toString());
    }else{
@@ -149,6 +156,232 @@ class ReceiverController extends GetxController{
    }).catchError((error){
      Utils.showError(context, error.toString());
      addingFoodRequest.value=false;
+   });
+ }
+
+ Widget buildChips(BuildContext context) {
+   List<Widget> chips =[];
+
+   for (int i = 0; i < categories.length; i++) {
+     _selected.add(false);
+     FilterChip filterChip = FilterChip(
+       selected: _selected[i],
+       label: Text(categories[i], style: TextStyle(color: Color6, fontWeight: FontWeight.bold)),
+       // avatar: FlutterLogo(),
+       elevation: 5,
+       pressElevation: 5,
+       //shadowColor: Colors.teal,
+       backgroundColor: Color2,
+       selectedColor: Color1,
+       onSelected: (bool selected) {
+         for(int j=0;j<_selected.length;j++){
+           if(_selected[j]){
+             _selected[j]=false;
+           }
+         }
+         _selected[i] = selected;
+         if(_selected[i]){
+
+           Utils.isInternetAvailable().then((result){
+             if(result){
+               filteredList.clear();
+               for(Donation d in donations){
+                 if(d.category==i+1){
+                   filteredList.add(d);
+                 }
+               }
+             }else{
+               Utils.showError(context, "Network Error");
+             }
+           });
+         }else{
+           filteredList.clear();
+           filteredList.assignAll(donations);
+         }
+
+
+       },
+     );
+
+     chips.add(Padding(
+         padding: EdgeInsets.symmetric(horizontal: 10),
+         child: filterChip
+     ));
+   }
+
+   return ListView(
+     // This next line does the trick.
+     scrollDirection: Axis.horizontal,
+     children: chips,
+   );
+ }
+
+ void filterByDistance(BuildContext context)async{
+   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+   if(!serviceEnabled){
+     Utils.showError(context,"Please Enable Location Services");
+     return;
+   }
+
+   Geolocator.checkPermission().then((permission){
+     if(permission == LocationPermission.denied){
+       Geolocator.requestPermission().then((permission){
+         if(permission!= LocationPermission.denied){
+           Geolocator.getCurrentPosition().then((position){
+             Get.dialog(
+                 AlertDialog(
+                   title: Text("Select Distance"),
+                   content:Container(
+                       width: 950,
+                       height: 64,
+                       child: StatefulBuilder(
+                         builder: ((context, setState) {
+                           return Scaffold(
+                             backgroundColor: Colors.transparent,
+                             body: Column(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
+                                 Text("Distance "+sliderValue.value.round().toString()+" Km"),
+                                 Slider(
+                                   value: sliderValue.value,
+                                   onChanged: (value){
+                                     setState((){
+                                       sliderValue.value=value.roundToDouble();
+                                     });
+                                   },
+                                   min: 1,
+                                   max: 50,
+                                   divisions: 50,
+                                   label: sliderValue.value.roundToDouble().toString()+" "+"Km",
+                                 ),
+
+                               ],
+                             ),
+                           );
+                         }),
+                       )
+                   ),
+                   actions: [
+                     TextButton(
+                       onPressed: (){
+                         Get.back();
+                       },
+                       child: Text("Cancel"),
+
+                     ),
+
+                     TextButton(
+                       onPressed: (){
+                         filteredList.clear();
+                         filteredList.assignAll(foodRequests);
+                         Get.back();
+                       },
+                       child: Text("All"),
+                     ),
+                     TextButton(
+                       onPressed: (){
+                         filteredList.clear();
+                         for(Donation d in donations){
+                           double distance=Geolocator.distanceBetween(position.latitude, position.longitude, d.lat!, d.lng!)/1000;
+                           print("Distance "+distance.round().toString());
+                           if(distance.round()<=sliderValue.value.round()){
+                             print(distance.round()<=sliderValue.value.round());
+                             filteredList.add(d);
+                           }
+                         }
+                         print("FilteredList Length "+filteredList.length.toString());
+                         Get.back();
+                       },
+                       child: Text("Set Distance"),
+
+                     ),
+                   ],
+                 )
+             );
+           });
+
+         }
+       });
+       return;
+     }else if(permission == LocationPermission.deniedForever){
+       Utils.showError(context,"You have to give location permission from setting of your device");
+       return;
+     }
+   });
+   Geolocator.getCurrentPosition().then((position){
+     Get.dialog(
+         AlertDialog(
+           title: Text("Select Distance"),
+           content:Container(
+               width: 950,
+               height: 64,
+               child: StatefulBuilder(
+                 builder: ((context, setState) {
+                   return Scaffold(
+                     backgroundColor: Colors.transparent,
+                     body: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Text("Distance "+sliderValue.value.round().toString()+" Km"),
+                         Slider(
+                           value: sliderValue.value,
+                           onChanged: (value){
+                             setState((){
+                               sliderValue.value=value.roundToDouble();
+                             });
+                           },
+                           min: 1,
+                           max: 50,
+                           divisions: 50,
+                           label: sliderValue.value.roundToDouble().toString()+" "+"Km",
+                         ),
+
+                       ],
+                     ),
+                   );
+                 }),
+               )
+           ),
+           actions: [
+
+
+             TextButton(
+               onPressed: (){
+                 Get.back();
+               },
+               child: Text("Cancel"),
+
+             ),
+
+             TextButton(
+               onPressed: (){
+                 filteredList.clear();
+                 filteredList.assignAll(foodRequests);
+                 Get.back();
+               },
+               child: Text("All"),
+             ),
+             TextButton(
+               onPressed: (){
+                 filteredList.clear();
+                 for(Donation d in donations){
+                   double distance=Geolocator.distanceBetween(position.latitude, position.longitude, d.lat!, d.lng!)/1000;
+                   print("Distance "+distance.round().toString());
+                   if(distance.round()<=sliderValue.value.round()){
+                     print(distance.round()<=sliderValue.value.round());
+                     filteredList.add(d);
+                   }
+
+                 }
+                 print("FilteredList Length "+filteredList.length.toString());
+                 Get.back();
+               },
+               child: Text("Set Distance"),
+
+             ),
+           ],
+         )
+     );
    });
  }
 }
