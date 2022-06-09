@@ -1,6 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
+//import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -48,6 +49,24 @@ class DonorRepository extends IDonorRepository{
     await ref.putFile(File(image.path));
     donation.images!.add(await ref.getDownloadURL());
   }
+
+  // Future uploadImage(XFile image,Donation donation)async{
+  //    try{
+  //      var request= http.MultipartRequest("POST",Uri.parse(Utils.getImageUploadingUrl()));
+  //      request.files.add(
+  //          await http.MultipartFile.fromPath(
+  //              'image',
+  //              image.path
+  //          )
+  //      );
+  //      var res = await request.send();
+  //      res.stream.transform(utf8.decoder).listen((value) {
+  //        donation.images!.add(jsonDecode(value)["data"]["url"].toString());
+  //      });
+  //    }catch(e){
+  //      throw e;
+  //    }
+  // }
 
   @override
   Future<List<Donation>> getFoodRequests(BuildContext context) async{

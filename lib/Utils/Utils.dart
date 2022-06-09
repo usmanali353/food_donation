@@ -7,12 +7,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
+//import 'package:shimmer/shimmer.dart';
 
 import 'Constants.dart';
 
 class Utils {
-
+  static String getImageUploadingUrl(){
+    return "https://api.imgbb.com/1/upload?key=bc9cf8e368f01463806a8df032019c54";
+  }
   static bool validateStructure(String value){
     RegExp regExp = new RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,}$');
     return regExp.hasMatch(value);
@@ -42,7 +44,7 @@ class Utils {
   }
 
   static Future<List<XFile>?> pickImages()async{
-        return await ImagePicker().pickMultiImage(imageQuality: 50);
+        return await ImagePicker().pickMultiImage(imageQuality: 25);
   }
 
  static Future<bool> isInternetAvailable() async {
@@ -122,414 +124,414 @@ class Utils {
     return "";
   }
 
-  static Widget getDonationListShimmer(){
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          width: Get.size.width,
-          // height: 180,
-          child: Row(
-            children: [
-              Container(
-                height: 185,
-                width: 130,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
-                    border: Border.all(color: Color1, width: 2),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage("assets/cherries.jpg")
-                    )
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Container(
-                        width: 150,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          //color: Color2,
-                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(16)),
-                        ),
-                        child:  AvatarStack(
-                          borderColor: Color2,
-                          height: 30,
-                          avatars: [
-                            for (var n = 0; n < 5; n++)
-                              NetworkImage('https://i.pravatar.cc/150?img=$n'),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(width: 5,),
-              Expanded(
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        //width: MediaQuery.of(context).size.width,
-                        height: 35,
-                        decoration: BoxDecoration(
-                            color: Color2,
-                            border: Border.all(color: Color1, width: 2)
-                        ),
-                        child:   Center(
-                          child: Text("Home", style: TextStyle(
-                              color: Color6, fontSize: 25, fontWeight: FontWeight.bold
-                          ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 4,),
-                      Row(
-                        children: [
-                          Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Color1,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Color2, width: 2),
-                            ),
-                            child: Center(child: FaIcon(FontAwesomeIcons.sitemap, color: Color2, size: 18,)),
-                          ),
-                          SizedBox(width: 4,),
-                          Expanded(
-                            child: Container(
-                              height: 35,
-                              decoration: BoxDecoration(
-                                //color: Color6,
-                                border: Border.all(color: Color1, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child:   Center(
-                                child: Container(
-                                  //width: 60,
-                                  color: Color6,
-                                  child: Text("Food Charity Service", style: TextStyle(
-                                      color: Color6, fontSize: 15, fontWeight: FontWeight.bold
-                                  ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 2,),
-                      Row(
-                        children: [
-                          Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Color1,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Color2, width: 2),
-                            ),
-                            child: Center(child: FaIcon(FontAwesomeIcons.users, color: Color2, size: 18,)),
-                          ),
-                          SizedBox(width: 4,),
-                          Expanded(
-                            child: Container(
-                              height: 35,
-                              decoration: BoxDecoration(
-                                //color: Color6,
-                                border: Border.all(color: Color1, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child:   Center(
-                                child: Container(
-                                  color: Color6,
-                                  child: Text("Food Charity Service", style: TextStyle(
-                                      color: Color6, fontSize: 15, fontWeight: FontWeight.bold
-                                  ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 2,),
-                      Row(
-                        children: [
-                          Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Color1,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Color2, width: 2),
-                            ),
-                            child: Center(child: FaIcon(FontAwesomeIcons.hourglassStart, color: Color2, size: 18,)),
-                          ),
-                          SizedBox(width: 4,),
-                          Expanded(
-                            child: Container(
-                              height: 35,
-                              decoration: BoxDecoration(
-                                //color: Color2,
-                                border: Border.all(color: Color1, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child:   Center(
-                                child:  Container(
-                                  color: Color6,
-                                  child: Text("Food Charity Service", style: TextStyle(
-                                      color: Color6, fontSize: 15, fontWeight: FontWeight.bold
-                                  ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 2,),
-                      Row(
-                        children: [
-                          Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Color1,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Color2, width: 2),
-                            ),
-                            child: Center(child: FaIcon(FontAwesomeIcons.truck, color: Color2, size: 18,)),
-                          ),
-                          SizedBox(width: 4,),
-                          Expanded(
-                            child: Container(
-                              height: 35,
-                              decoration: BoxDecoration(
-                                //color: Color2,
-                                border: Border.all(color: Color1, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child:   Center(
-                                child: Container(
-                                  color: Color6,
-                                  child: Text("Food Charity Service", style: TextStyle(
-                                      color: Color6, fontSize: 15, fontWeight: FontWeight.bold
-                                  ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                    ],
-                  ),
-                ),
-              ),
-
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-  static Widget getRequestListShimmer(){
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          width: Get.size.width,
-          // height: 180,
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        //width: MediaQuery.of(context).size.width,
-                        height: 35,
-                        decoration: BoxDecoration(
-                            color: Color2,
-                            border: Border.all(color: Color1, width: 2)
-                        ),
-                        child:   Center(
-                          child: Text("Home", style: TextStyle(
-                              color: Color6, fontSize: 25, fontWeight: FontWeight.bold
-                          ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 4,),
-                      Row(
-                        children: [
-                          Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Color1,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Color2, width: 2),
-                            ),
-                            child: Center(child: FaIcon(FontAwesomeIcons.sitemap, color: Color2, size: 18,)),
-                          ),
-                          SizedBox(width: 4,),
-                          Expanded(
-                            child: Container(
-                              height: 35,
-                              decoration: BoxDecoration(
-                                //color: Color2,
-                                border: Border.all(color: Color1, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child:   Center(
-                                child: Container(
-                                  //width: 60,
-                                  color: Color6,
-                                  child: Text("Food Charity Service", style: TextStyle(
-                                      color: Color6, fontSize: 15, fontWeight: FontWeight.bold
-                                  ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 2,),
-                      Row(
-                        children: [
-                          Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Color1,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Color2, width: 2),
-                            ),
-                            child: Center(child: FaIcon(FontAwesomeIcons.users, color: Color2, size: 18,)),
-                          ),
-                          SizedBox(width: 4,),
-                          Expanded(
-                            child: Container(
-                              height: 35,
-                              decoration: BoxDecoration(
-                                //color: Color2,
-                                border: Border.all(color: Color1, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child:   Center(
-                                child: Container(
-                                  //width: 60,
-                                  color: Color6,
-                                  child: Text("Food Charity Service", style: TextStyle(
-                                      color: Color6, fontSize: 15, fontWeight: FontWeight.bold
-                                  ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 2,),
-                      Row(
-                        children: [
-                          Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Color1,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Color2, width: 2),
-                            ),
-                            child: Center(child: FaIcon(FontAwesomeIcons.calendar, color: Color2, size: 18,)),
-                          ),
-                          SizedBox(width: 4,),
-                          Expanded(
-                            child: Container(
-                              height: 35,
-                              decoration: BoxDecoration(
-                                //color: Color2,
-                                border: Border.all(color: Color1, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child:   Center(
-                                child: Container(
-                                  //width: 60,
-                                  color: Color6,
-                                  child: Text("Food Charity Service", style: TextStyle(
-                                      color: Color6, fontSize: 15, fontWeight: FontWeight.bold
-                                  ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 2,),
-                      Row(
-                        children: [
-                          Container(
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: Color1,
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Color2, width: 2),
-                            ),
-                            child: Center(child: FaIcon(FontAwesomeIcons.truck, color: Color2, size: 18,)),
-                          ),
-                          SizedBox(width: 4,),
-                          Expanded(
-                            child: Container(
-                              height: 35,
-                              decoration: BoxDecoration(
-                                //color: Color2,
-                                border: Border.all(color: Color1, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child:   Center(
-                                child: Container(
-                                  //width: 60,
-                                  color: Color6,
-                                  child: Text("Food Charity Service", style: TextStyle(
-                                      color: Color6, fontSize: 15, fontWeight: FontWeight.bold
-                                  ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                    ],
-                  ),
-                ),
-              ),
-
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // static Widget getDonationListShimmer(){
+  //   return Shimmer.fromColors(
+  //     baseColor: Colors.grey.shade300,
+  //     highlightColor: Colors.grey.shade100,
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(8.0),
+  //       child: Container(
+  //         width: Get.size.width,
+  //         // height: 180,
+  //         child: Row(
+  //           children: [
+  //             Container(
+  //               height: 185,
+  //               width: 130,
+  //               decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.only(topLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
+  //                   border: Border.all(color: Color1, width: 2),
+  //                   image: DecorationImage(
+  //                       fit: BoxFit.cover,
+  //                       image: AssetImage("assets/cherries.jpg")
+  //                   )
+  //               ),
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.end,
+  //                 crossAxisAlignment: CrossAxisAlignment.end,
+  //                 children: [
+  //                   Padding(
+  //                     padding: const EdgeInsets.all(4.0),
+  //                     child: Container(
+  //                       width: 150,
+  //                       height: 40,
+  //                       decoration: BoxDecoration(
+  //                         //color: Color2,
+  //                         borderRadius: BorderRadius.only(bottomRight: Radius.circular(16)),
+  //                       ),
+  //                       child:  AvatarStack(
+  //                         borderColor: Color2,
+  //                         height: 30,
+  //                         avatars: [
+  //                           for (var n = 0; n < 5; n++)
+  //                             NetworkImage('https://i.pravatar.cc/150?img=$n'),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   )
+  //                 ],
+  //               ),
+  //             ),
+  //             SizedBox(width: 5,),
+  //             Expanded(
+  //               child: Container(
+  //                 child: Column(
+  //                   mainAxisAlignment: MainAxisAlignment.start,
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Container(
+  //                       //width: MediaQuery.of(context).size.width,
+  //                       height: 35,
+  //                       decoration: BoxDecoration(
+  //                           color: Color2,
+  //                           border: Border.all(color: Color1, width: 2)
+  //                       ),
+  //                       child:   Center(
+  //                         child: Text("Home", style: TextStyle(
+  //                             color: Color6, fontSize: 25, fontWeight: FontWeight.bold
+  //                         ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     SizedBox(height: 4,),
+  //                     Row(
+  //                       children: [
+  //                         Container(
+  //                           width: 35,
+  //                           height: 35,
+  //                           decoration: BoxDecoration(
+  //                             color: Color1,
+  //                             borderRadius: BorderRadius.circular(8),
+  //                             border: Border.all(color: Color2, width: 2),
+  //                           ),
+  //                           child: Center(child: FaIcon(FontAwesomeIcons.sitemap, color: Color2, size: 18,)),
+  //                         ),
+  //                         SizedBox(width: 4,),
+  //                         Expanded(
+  //                           child: Container(
+  //                             height: 35,
+  //                             decoration: BoxDecoration(
+  //                               //color: Color6,
+  //                               border: Border.all(color: Color1, width: 2),
+  //                               borderRadius: BorderRadius.circular(8),
+  //                             ),
+  //                             child:   Center(
+  //                               child: Container(
+  //                                 //width: 60,
+  //                                 color: Color6,
+  //                                 child: Text("Food Charity Service", style: TextStyle(
+  //                                     color: Color6, fontSize: 15, fontWeight: FontWeight.bold
+  //                                 ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                     SizedBox(height: 2,),
+  //                     Row(
+  //                       children: [
+  //                         Container(
+  //                           width: 35,
+  //                           height: 35,
+  //                           decoration: BoxDecoration(
+  //                             color: Color1,
+  //                             borderRadius: BorderRadius.circular(8),
+  //                             border: Border.all(color: Color2, width: 2),
+  //                           ),
+  //                           child: Center(child: FaIcon(FontAwesomeIcons.users, color: Color2, size: 18,)),
+  //                         ),
+  //                         SizedBox(width: 4,),
+  //                         Expanded(
+  //                           child: Container(
+  //                             height: 35,
+  //                             decoration: BoxDecoration(
+  //                               //color: Color6,
+  //                               border: Border.all(color: Color1, width: 2),
+  //                               borderRadius: BorderRadius.circular(8),
+  //                             ),
+  //                             child:   Center(
+  //                               child: Container(
+  //                                 color: Color6,
+  //                                 child: Text("Food Charity Service", style: TextStyle(
+  //                                     color: Color6, fontSize: 15, fontWeight: FontWeight.bold
+  //                                 ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                     SizedBox(height: 2,),
+  //                     Row(
+  //                       children: [
+  //                         Container(
+  //                           width: 35,
+  //                           height: 35,
+  //                           decoration: BoxDecoration(
+  //                             color: Color1,
+  //                             borderRadius: BorderRadius.circular(8),
+  //                             border: Border.all(color: Color2, width: 2),
+  //                           ),
+  //                           child: Center(child: FaIcon(FontAwesomeIcons.hourglassStart, color: Color2, size: 18,)),
+  //                         ),
+  //                         SizedBox(width: 4,),
+  //                         Expanded(
+  //                           child: Container(
+  //                             height: 35,
+  //                             decoration: BoxDecoration(
+  //                               //color: Color2,
+  //                               border: Border.all(color: Color1, width: 2),
+  //                               borderRadius: BorderRadius.circular(8),
+  //                             ),
+  //                             child:   Center(
+  //                               child:  Container(
+  //                                 color: Color6,
+  //                                 child: Text("Food Charity Service", style: TextStyle(
+  //                                     color: Color6, fontSize: 15, fontWeight: FontWeight.bold
+  //                                 ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                     SizedBox(height: 2,),
+  //                     Row(
+  //                       children: [
+  //                         Container(
+  //                           width: 35,
+  //                           height: 35,
+  //                           decoration: BoxDecoration(
+  //                             color: Color1,
+  //                             borderRadius: BorderRadius.circular(8),
+  //                             border: Border.all(color: Color2, width: 2),
+  //                           ),
+  //                           child: Center(child: FaIcon(FontAwesomeIcons.truck, color: Color2, size: 18,)),
+  //                         ),
+  //                         SizedBox(width: 4,),
+  //                         Expanded(
+  //                           child: Container(
+  //                             height: 35,
+  //                             decoration: BoxDecoration(
+  //                               //color: Color2,
+  //                               border: Border.all(color: Color1, width: 2),
+  //                               borderRadius: BorderRadius.circular(8),
+  //                             ),
+  //                             child:   Center(
+  //                               child: Container(
+  //                                 color: Color6,
+  //                                 child: Text("Food Charity Service", style: TextStyle(
+  //                                     color: Color6, fontSize: 15, fontWeight: FontWeight.bold
+  //                                 ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  // static Widget getRequestListShimmer(){
+  //   return Shimmer.fromColors(
+  //     baseColor: Colors.grey.shade300,
+  //     highlightColor: Colors.grey.shade100,
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(8.0),
+  //       child: Container(
+  //         width: Get.size.width,
+  //         // height: 180,
+  //         child: Row(
+  //           children: [
+  //             Expanded(
+  //               child: Container(
+  //                 child: Column(
+  //                   mainAxisAlignment: MainAxisAlignment.start,
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Container(
+  //                       //width: MediaQuery.of(context).size.width,
+  //                       height: 35,
+  //                       decoration: BoxDecoration(
+  //                           color: Color2,
+  //                           border: Border.all(color: Color1, width: 2)
+  //                       ),
+  //                       child:   Center(
+  //                         child: Text("Home", style: TextStyle(
+  //                             color: Color6, fontSize: 25, fontWeight: FontWeight.bold
+  //                         ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     SizedBox(height: 4,),
+  //                     Row(
+  //                       children: [
+  //                         Container(
+  //                           width: 35,
+  //                           height: 35,
+  //                           decoration: BoxDecoration(
+  //                             color: Color1,
+  //                             borderRadius: BorderRadius.circular(8),
+  //                             border: Border.all(color: Color2, width: 2),
+  //                           ),
+  //                           child: Center(child: FaIcon(FontAwesomeIcons.sitemap, color: Color2, size: 18,)),
+  //                         ),
+  //                         SizedBox(width: 4,),
+  //                         Expanded(
+  //                           child: Container(
+  //                             height: 35,
+  //                             decoration: BoxDecoration(
+  //                               //color: Color2,
+  //                               border: Border.all(color: Color1, width: 2),
+  //                               borderRadius: BorderRadius.circular(8),
+  //                             ),
+  //                             child:   Center(
+  //                               child: Container(
+  //                                 //width: 60,
+  //                                 color: Color6,
+  //                                 child: Text("Food Charity Service", style: TextStyle(
+  //                                     color: Color6, fontSize: 15, fontWeight: FontWeight.bold
+  //                                 ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                     SizedBox(height: 2,),
+  //                     Row(
+  //                       children: [
+  //                         Container(
+  //                           width: 35,
+  //                           height: 35,
+  //                           decoration: BoxDecoration(
+  //                             color: Color1,
+  //                             borderRadius: BorderRadius.circular(8),
+  //                             border: Border.all(color: Color2, width: 2),
+  //                           ),
+  //                           child: Center(child: FaIcon(FontAwesomeIcons.users, color: Color2, size: 18,)),
+  //                         ),
+  //                         SizedBox(width: 4,),
+  //                         Expanded(
+  //                           child: Container(
+  //                             height: 35,
+  //                             decoration: BoxDecoration(
+  //                               //color: Color2,
+  //                               border: Border.all(color: Color1, width: 2),
+  //                               borderRadius: BorderRadius.circular(8),
+  //                             ),
+  //                             child:   Center(
+  //                               child: Container(
+  //                                 //width: 60,
+  //                                 color: Color6,
+  //                                 child: Text("Food Charity Service", style: TextStyle(
+  //                                     color: Color6, fontSize: 15, fontWeight: FontWeight.bold
+  //                                 ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                     SizedBox(height: 2,),
+  //                     Row(
+  //                       children: [
+  //                         Container(
+  //                           width: 35,
+  //                           height: 35,
+  //                           decoration: BoxDecoration(
+  //                             color: Color1,
+  //                             borderRadius: BorderRadius.circular(8),
+  //                             border: Border.all(color: Color2, width: 2),
+  //                           ),
+  //                           child: Center(child: FaIcon(FontAwesomeIcons.calendar, color: Color2, size: 18,)),
+  //                         ),
+  //                         SizedBox(width: 4,),
+  //                         Expanded(
+  //                           child: Container(
+  //                             height: 35,
+  //                             decoration: BoxDecoration(
+  //                               //color: Color2,
+  //                               border: Border.all(color: Color1, width: 2),
+  //                               borderRadius: BorderRadius.circular(8),
+  //                             ),
+  //                             child:   Center(
+  //                               child: Container(
+  //                                 //width: 60,
+  //                                 color: Color6,
+  //                                 child: Text("Food Charity Service", style: TextStyle(
+  //                                     color: Color6, fontSize: 15, fontWeight: FontWeight.bold
+  //                                 ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                     SizedBox(height: 2,),
+  //                     Row(
+  //                       children: [
+  //                         Container(
+  //                           width: 35,
+  //                           height: 35,
+  //                           decoration: BoxDecoration(
+  //                             color: Color1,
+  //                             borderRadius: BorderRadius.circular(8),
+  //                             border: Border.all(color: Color2, width: 2),
+  //                           ),
+  //                           child: Center(child: FaIcon(FontAwesomeIcons.truck, color: Color2, size: 18,)),
+  //                         ),
+  //                         SizedBox(width: 4,),
+  //                         Expanded(
+  //                           child: Container(
+  //                             height: 35,
+  //                             decoration: BoxDecoration(
+  //                               //color: Color2,
+  //                               border: Border.all(color: Color1, width: 2),
+  //                               borderRadius: BorderRadius.circular(8),
+  //                             ),
+  //                             child:   Center(
+  //                               child: Container(
+  //                                 //width: 60,
+  //                                 color: Color6,
+  //                                 child: Text("Food Charity Service", style: TextStyle(
+  //                                     color: Color6, fontSize: 15, fontWeight: FontWeight.bold
+  //                                 ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
 }

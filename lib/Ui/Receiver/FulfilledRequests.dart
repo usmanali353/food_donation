@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:food_donation/Ui/Receiver/RequestFood.dart';
 import 'package:food_donation/Utils/StatefulWrapper.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../Controllers/ReceiverController.dart';
 import '../../Utils/Constants.dart';
 import '../../Utils/Utils.dart';

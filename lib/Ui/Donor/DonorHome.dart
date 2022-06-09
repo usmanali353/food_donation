@@ -81,7 +81,7 @@ class DonorHome extends StatelessWidget {
         iconTheme: IconThemeData(color: Color6),
         title: Text("Home",style: TextStyle(color: Color6,fontSize: 30,fontWeight: FontWeight.bold),),
         centerTitle: true,
-        backgroundColor: !Get.isDarkMode?Color2:Theme.of(context).appBarTheme.backgroundColor,
+        backgroundColor:Color2,
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color2,

@@ -23,7 +23,7 @@ class FoodRequestListForDonor extends GetView<DonorController> {
       child: Scaffold(
         appBar: AppBar(
           iconTheme: IconThemeData(color: Color6),
-          backgroundColor: !Get.isDarkMode?Color2:Theme.of(context).appBarTheme.backgroundColor,
+          backgroundColor: Color2,
           centerTitle: true,
           title: Text("Food Requests", style: TextStyle(
               color: Color6, fontWeight: FontWeight.bold, fontSize: 25
@@ -31,7 +31,7 @@ class FoodRequestListForDonor extends GetView<DonorController> {
 
           ),
           actions: [
-            Visibility(
+            Obx(() => Visibility(
               visible: controller.foodRequests.length>0,
               child: IconButton(onPressed: (){
                 // Geolocator.getCurrentPosition().then((position){
@@ -39,7 +39,8 @@ class FoodRequestListForDonor extends GetView<DonorController> {
                 // });
                 controller.filterByDistance(context);
               }, icon: FaIcon(FontAwesomeIcons.filter)),
-            )
+            ))
+
           ],
         ),
 
