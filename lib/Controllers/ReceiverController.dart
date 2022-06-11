@@ -33,6 +33,14 @@ class ReceiverController extends GetxController{
  Rx<double> sliderValue=1.0.obs;
  late IReceiverRepository receiverRepository;
  Rx<bool> addingFoodRequest=false.obs;
+
+ //variables used to check if currently List Data is Loading
+ Rx<bool> fetchingPendingRequests=false.obs;
+ Rx<bool> fetchingPendingDonations=false.obs;
+ Rx<bool> fetchingRequestsHistory=false.obs;
+ Rx<bool> fetchingDonationsHistory=false.obs;
+
+
   void onInit(){
     super.onInit();
     descriptionTextEditingController = TextEditingController();
@@ -84,13 +92,21 @@ class ReceiverController extends GetxController{
       }
     });
   }
+
   Future getFoodRequests(BuildContext context)async{
     bool isConnected = await  Utils.isInternetAvailable();
     if(isConnected){
-      foodRequests.clear();
       String? userId = FirebaseAuth.instance.currentUser?.uid;
-      List<Donation> foodRequestList=await receiverRepository.getFoodRequests(context, userId!);
-      foodRequests.assignAll(foodRequestList);
+      fetchingPendingRequests.value=true;
+      await receiverRepository.getFoodRequests(context, userId!).then((foodRequestList){
+        foodRequests.clear();
+        foodRequests.assignAll(foodRequestList);
+        fetchingPendingRequests.value=false;
+      }).catchError((error){
+        fetchingPendingRequests.value=false;
+        Utils.showError(context,error.toString());
+      });
+
       log("Food Requests "+foodRequests.length.toString());
     }else{
       Utils.showError(context,"Your Device is not connected to Network");
@@ -100,12 +116,19 @@ class ReceiverController extends GetxController{
  Future getUnReceivedDonations(BuildContext context)async{
    bool isConnected = await  Utils.isInternetAvailable();
    if(isConnected){
-     List<Donation> donationsList=await receiverRepository.getUnReceivedDonations(context);
-     donations.clear();
-     filteredList.clear();
-     filteredList.assignAll(donationsList);
-     donations.assignAll(donationsList);
-     log("Un Received Donations "+donationsList.length.toString());
+     fetchingPendingDonations.value=true;
+     await receiverRepository.getUnReceivedDonations(context).then((donationsList){
+       donations.clear();
+       filteredList.clear();
+       filteredList.assignAll(donationsList);
+       donations.assignAll(donationsList);
+       fetchingPendingDonations.value=false;
+       log("Un Received Donations "+donationsList.length.toString());
+     }).catchError((error){
+       fetchingPendingDonations.value=false;
+       Utils.showError(context, error.toString());
+     });
+
    }else{
      Utils.showError(context,"Your Device is not connected to Network");
    }
@@ -131,10 +154,18 @@ class ReceiverController extends GetxController{
  Future getReceivedDonations(BuildContext context)async{
    bool isConnected = await  Utils.isInternetAvailable();
    if(isConnected){
-     donated.clear();
-     List<Donation> donationsList=await receiverRepository.getReceivedDonations(context);
-     donated.assignAll(donationsList);
-     log("Received Donations "+donationsList.length.toString());
+      fetchingDonationsHistory.value=true;
+     await receiverRepository.getReceivedDonations(context).then((donationsList){
+       donated.clear();
+       donated.assignAll(donationsList);
+       log("Received Donations "+donationsList.length.toString());
+       fetchingDonationsHistory.value=false;
+     }).catchError((error){
+       Utils.showError(context, error.toString());
+       fetchingDonationsHistory.value=false;
+     });
+
+
    }else{
      Utils.showError(context,"Your Device is not connected to Network");
    }
@@ -142,9 +173,16 @@ class ReceiverController extends GetxController{
  Future getFulfilledRequests(BuildContext context)async{
    bool isConnected = await  Utils.isInternetAvailable();
    if(isConnected){
-     fulfilledRequests.clear();
-     List<Donation> donationsList=await receiverRepository.getFulFulFilledRequests(context);
-     fulfilledRequests.assignAll(donationsList);
+     fetchingRequestsHistory.value=true;
+     await receiverRepository.getFulFulFilledRequests(context).then((donationsList){
+       fulfilledRequests.clear();
+       fulfilledRequests.assignAll(donationsList);
+       fetchingRequestsHistory.value=false;
+     }).catchError((error){
+       fetchingRequestsHistory.value=false;
+       Utils.showError(context, error.toString());
+     });
+
    }else{
      Utils.showError(context,"Your Device is not connected to Network");
    }

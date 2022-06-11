@@ -1,15 +1,12 @@
 import 'package:avatar_stack/avatar_stack.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_donation/Controllers/AccountController.dart';
 import 'package:food_donation/Controllers/DonorController.dart';
-import 'package:food_donation/Ui/Auth/SplashScreen.dart';
 import 'package:food_donation/Ui/DetailPages/DonationDetails.dart';
 import 'package:food_donation/Ui/Donor/DonorHistory.dart';
 import 'package:food_donation/Ui/Donor/FoodRequestListForDonor.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../Utils/Constants.dart';
 import '../../Utils/Utils.dart';
 import '../Auth/ProfileScreen.dart';
@@ -95,8 +92,8 @@ class DonorHome extends StatelessWidget {
           onRefresh: () async{
             return await donorController.getDonations(context);
           },
-          child: Obx(() => ListView.builder(itemCount:donorController.donations.length, itemBuilder: (context, index){
-            return Padding(
+          child: Obx(() => ListView.builder(itemCount:!donorController.fetchingPendingDonations.value?donorController.donations.length:5, itemBuilder: (context, index){
+            return !donorController.fetchingPendingDonations.value? Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
@@ -305,7 +302,7 @@ class DonorHome extends StatelessWidget {
                   ),
                 ),
               ),
-            );
+            ):Utils.getDonationListShimmer();
           }))
       ),
     );

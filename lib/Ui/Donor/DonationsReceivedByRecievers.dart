@@ -20,8 +20,8 @@ class DonationsReceivedByReceivers extends GetView<DonorController> {
           onRefresh: () async{
             return await controller.getDonationsReceivedByReceivers(context);
           },
-          child: Obx(() => ListView.builder(itemCount:controller.donated.length, itemBuilder: (context, index){
-            return Padding(
+          child: Obx(() => ListView.builder(itemCount:!controller.fetchingDonationsHistory.value?controller.donated.length:5, itemBuilder: (context, index){
+            return !controller.fetchingDonationsHistory.value? Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
@@ -230,7 +230,7 @@ class DonationsReceivedByReceivers extends GetView<DonorController> {
                   ),
                 ),
               ),
-            );
+            ):Utils.getDonationListShimmer();
           }))
       ),
     )) ;

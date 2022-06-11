@@ -35,10 +35,8 @@ class ReceiverRepository extends IReceiverRepository{
       }
       return foodRequests;
     }catch(e){
-      Utils.showError(context,e.toString());
       throw e;
     }
-    return foodRequests;
   }
 
   @override
@@ -109,7 +107,6 @@ class ReceiverRepository extends IReceiverRepository{
       }
       return foodRequests;
     }catch(e){
-      Utils.showError(context,e.toString());
       throw e;
     }
   }

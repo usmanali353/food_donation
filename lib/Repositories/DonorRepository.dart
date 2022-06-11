@@ -115,7 +115,6 @@ class DonorRepository extends IDonorRepository{
       }
       return foodRequests;
     }catch(e){
-      Utils.showError(context,e.toString());
       throw e;
     }
   }
@@ -137,7 +136,6 @@ class DonorRepository extends IDonorRepository{
       }
       return foodRequests;
     }catch(e){
-      Utils.showError(context,e.toString());
       throw e;
     }
   }

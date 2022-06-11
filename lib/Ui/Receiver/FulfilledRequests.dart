@@ -23,8 +23,8 @@ class FulFilledRequests extends GetView<ReceiverController> {
           {
             return await controller.getFulfilledRequests(context);
           },
-          child: Obx(() => ListView.builder(itemCount:controller.fulfilledRequests.length, itemBuilder: (context, index){
-            return Padding(
+          child: Obx(() => ListView.builder(itemCount:!controller.fetchingRequestsHistory.value?controller.fulfilledRequests.length:5, itemBuilder: (context, index){
+            return !controller.fetchingRequestsHistory.value? Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
@@ -289,7 +289,7 @@ class FulFilledRequests extends GetView<ReceiverController> {
                   ),
                 ),
               ),
-            );
+            ):Utils.getRequestListShimmer();
           }),)
       ),
     )) ;

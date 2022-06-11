@@ -80,7 +80,7 @@ class ProfileScreen extends GetView<AccountController> {
                                     borderRadius: BorderRadius.circular(150),
                                     image: DecorationImage(
                                         fit: BoxFit.fill,
-                                        image:NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!=null?FirebaseAuth.instance.currentUser!.photoURL!:"https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-4.png")
+                                        image:NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!=null?FirebaseAuth.instance.currentUser!.photoURL!:"https://www.nicepng.com/png/full/522-5226533_get-beyond-the-usual-suspects-profile-pic-icon.png")
                                     ),
                                   ),
                                 ),

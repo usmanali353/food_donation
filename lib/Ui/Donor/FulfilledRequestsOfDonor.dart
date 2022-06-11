@@ -14,8 +14,7 @@ class FulfilledRequestsOfDonor extends GetView<DonorController> {
   Widget build(BuildContext context) {
     return StatefulWrapper(
       onInit: (){
-        WidgetsBinding.instance
-            .addPostFrameCallback((_) => _refreshIndicatorKey.currentState?.show());
+        controller.getFoodRequestsFulfilledByDonor(context);
       },
       child: Scaffold(
 
@@ -25,8 +24,8 @@ class FulfilledRequestsOfDonor extends GetView<DonorController> {
             {
               return await controller.getFoodRequestsFulfilledByDonor(context);
             },
-            child: Obx(() => ListView.builder(itemCount:controller.fulfilledRequests.length, itemBuilder: (context, index){
-              return Padding(
+            child: Obx(() => ListView.builder(itemCount:!controller.fetchingRequestsHistory.value?controller.fulfilledRequests.length:5, itemBuilder: (context, index){
+              return !controller.fetchingRequestsHistory.value? Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
                   onTap: (){
@@ -291,7 +290,7 @@ class FulfilledRequestsOfDonor extends GetView<DonorController> {
                     ),
                   ),
                 ),
-              );
+              ):Utils.getRequestListShimmer();
             }),)
         ),
       ),

@@ -32,6 +32,13 @@ class DonorController extends GetxController{
   var foodRequests=[].obs;
   var filteredList=[].obs;
   var _selected=[].obs;
+
+  //variables used to check if currently List Data is Loading
+  Rx<bool> fetchingPendingRequests=false.obs;
+  Rx<bool> fetchingPendingDonations=false.obs;
+  Rx<bool> fetchingRequestsHistory=false.obs;
+  Rx<bool> fetchingDonationsHistory=false.obs;
+
   Rx<double> sliderValue=1.0.obs;
   List<String> categories=["Cooked Food","Fruits","Vegetables","Sweets","Chocolates","Cakes","Biscuits","Milk","Grains","Mix Items","Others",];
   List<String> deliveryTypes=["Pick Up","Drop Off"];
@@ -97,9 +104,16 @@ class DonorController extends GetxController{
     Utils.isInternetAvailable().then((isConnected)async{
       if(isConnected){
         if(FirebaseAuth.instance.currentUser!=null){
-          List<Donation> donationList= await donorRepository.getDonations(context, FirebaseAuth.instance.currentUser!.uid);
-          donations.clear();
-          donations.assignAll(donationList);
+          fetchingPendingDonations.value=true;
+          await donorRepository.getDonations(context, FirebaseAuth.instance.currentUser!.uid).then((donationList){
+            donations.clear();
+            donations.assignAll(donationList);
+            fetchingPendingDonations.value=false;
+          }).catchError((error){
+            Utils.showError(context, error.toString());
+            fetchingPendingDonations.value=false;
+          });
+
           log("No of Donations "+donations.length.toString());
         }
       }else{
@@ -112,11 +126,17 @@ class DonorController extends GetxController{
     Utils.isInternetAvailable().then((isConnected)async{
       if(isConnected){
         if(FirebaseAuth.instance.currentUser!=null){
-          List<Donation> donationList= await donorRepository.getFoodRequests(context);
-          filteredList.clear();
-          foodRequests.clear();
-          foodRequests.assignAll(donationList);
-          filteredList.assignAll(donationList);
+          fetchingPendingRequests.value=true;
+           await donorRepository.getFoodRequests(context).then((donationList){
+             filteredList.clear();
+             foodRequests.clear();
+             foodRequests.assignAll(donationList);
+             filteredList.assignAll(donationList);
+             fetchingPendingRequests.value=false;
+          }).catchError((error){
+             Utils.showError(context, error.toString());
+             fetchingPendingRequests.value=false;
+           });
           log("No of Requests "+foodRequests.length.toString());
         }
       }else{
@@ -130,9 +150,16 @@ class DonorController extends GetxController{
     Utils.isInternetAvailable().then((isConnected)async{
       if(isConnected){
         if(FirebaseAuth.instance.currentUser!=null){
-          fulfilledRequests.clear();
-          List<Donation> donationList= await donorRepository.getRequestsFulfilledByDonor(context);
-          fulfilledRequests.assignAll(donationList);
+          fetchingRequestsHistory.value=true;
+           await donorRepository.getRequestsFulfilledByDonor(context).then((donationList){
+             fulfilledRequests.clear();
+             fulfilledRequests.assignAll(donationList);
+             fetchingRequestsHistory.value=false;
+          }).catchError((error){
+             fetchingRequestsHistory.value=false;
+            Utils.showError(context,error.toString());
+          });
+
         }
       }else{
         Utils.showError(context,"Your Device is not Connected to Network");
@@ -143,9 +170,16 @@ class DonorController extends GetxController{
     Utils.isInternetAvailable().then((isConnected)async{
       if(isConnected){
         if(FirebaseAuth.instance.currentUser!=null){
-          donated.clear();
-          List<Donation> donationList= await donorRepository.getDonationsReceivedByReceivers(context);
-          donated.assignAll(donationList);
+           fetchingDonationsHistory.value=true;
+           await donorRepository.getDonationsReceivedByReceivers(context).then((donationList){
+             donated.clear();
+             donated.assignAll(donationList);
+             fetchingDonationsHistory.value=false;
+          }).catchError((error){
+             fetchingDonationsHistory.value=false;
+             Utils.showError(context,error.toString());
+          });
+
         }
       }else{
         Utils.showError(context,"Your Device is not Connected to Network");

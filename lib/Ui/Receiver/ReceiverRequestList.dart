@@ -15,7 +15,6 @@ class ReceiverRequestList extends GetView<ReceiverController> {
   Widget build(BuildContext context) {
 
     return StatefulWrapper(onInit:(){
-      print("onInit");
       controller.getFoodRequests(context);
     }, child: Scaffold(
        floatingActionButton: FloatingActionButton(
@@ -31,8 +30,8 @@ class ReceiverRequestList extends GetView<ReceiverController> {
           {
             return await controller.getFoodRequests(context);
           },
-          child: Obx(() => ListView.builder(itemCount:controller.foodRequests.length, itemBuilder: (context, index){
-            return Padding(
+          child: Obx(() => ListView.builder(itemCount:!controller.fetchingPendingRequests.value?controller.foodRequests.length:5, itemBuilder: (context, index){
+            return !controller.fetchingPendingRequests.value? Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
@@ -300,7 +299,7 @@ class ReceiverRequestList extends GetView<ReceiverController> {
                   ),
                 ),
               ),
-            );
+            ):Utils.getRequestListShimmer();
           }),)
       ),
     )) ;

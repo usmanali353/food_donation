@@ -17,8 +17,7 @@ class FoodRequestListForDonor extends GetView<DonorController> {
   Widget build(BuildContext context) {
     return StatefulWrapper(
       onInit: (){
-        WidgetsBinding.instance
-            .addPostFrameCallback((_) => _refreshIndicatorKey.currentState?.show());
+        controller.getFoodRequests(context);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -62,8 +61,8 @@ class FoodRequestListForDonor extends GetView<DonorController> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(itemCount:controller.filteredList.length, itemBuilder: (context, index){
-                  return Padding(
+                child: ListView.builder(itemCount:!controller.fetchingPendingRequests.value?controller.filteredList.length:5, itemBuilder: (context, index){
+                  return !controller.fetchingPendingRequests.value? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
                       onTap: (){
@@ -328,7 +327,7 @@ class FoodRequestListForDonor extends GetView<DonorController> {
                         ),
                       ),
                     ),
-                  );
+                  ):Utils.getRequestListShimmer();
                 }),
               ),
             ],

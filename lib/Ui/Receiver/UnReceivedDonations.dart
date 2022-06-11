@@ -47,8 +47,8 @@ class UnReceivedDonations extends GetView<ReceiverController> {
                  ),
                ),
                Expanded(
-                 child: ListView.builder(itemCount:controller.filteredList.length, itemBuilder: (context, index){
-                   return Padding(
+                 child: ListView.builder(itemCount:!controller.fetchingPendingDonations.value?controller.filteredList.length:5, itemBuilder: (context, index){
+                   return !controller.fetchingPendingDonations.value? Padding(
                      padding: const EdgeInsets.all(8.0),
                      child: InkWell(
                        onTap: (){
@@ -258,7 +258,7 @@ class UnReceivedDonations extends GetView<ReceiverController> {
                          ),
                        ),
                      ),
-                   );
+                   ):Utils.getDonationListShimmer();
                  }),
                ),
              ],
