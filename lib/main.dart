@@ -40,10 +40,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   void initialization() async {
-    // This is where you can initialize the resources needed by your app while
-    // the splash screen is displayed.  Remove the following example because
-    // delaying the user experience is a bad design practice!
-    // ignore_for_file: avoid_print
     FlutterNativeSplash.remove();
   }
 
