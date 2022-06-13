@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:food_donation/Models/userData.dart';
+import 'package:food_donation/Ui/Admin/AdminDashboard.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Ui/Auth/SplashScreen.dart';
@@ -56,7 +57,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.green
       ),
       debugShowCheckedModeBanner: false,
-      home: role==1?DonorHome():role==2?ReceiverHome():SplashScreen(),
+      home: role==1?DonorHome():role==2?ReceiverHome():role==3?AdminDashboard():SplashScreen(),
     );
   }
 
@@ -69,6 +70,8 @@ class _MyAppState extends State<MyApp> {
            role= 1;
          }else if(prefs.getString("user_data")!=null&&UserData.userFromJson(prefs.getString("user_data")!).role==2){
            role= 2;
+         }else if(prefs.getString("user_data")!=null&&UserData.userFromJson(prefs.getString("user_data")!).role==3){
+           role= 3;
          }else{
            role=0;
          }

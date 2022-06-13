@@ -10,4 +10,5 @@ abstract class IAccountRepository{
   Future getUserInfo(BuildContext context,String userId);
   Future logOut();
   Future getUserInfoById(BuildContext context,String userId);
+  Future<List<UserData>> getUsersByRole(BuildContext context,int roleId);
 }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_donation/IRepositories/IAccountRepository.dart';
+import 'package:food_donation/Ui/Admin/AdminDashboard.dart';
 import 'package:food_donation/Ui/Auth/RegisterScreen.dart';
 import 'package:food_donation/Ui/Donor/DonorHome.dart';
 import 'package:food_donation/Ui/Receiver/ReceiverHome.dart';
@@ -101,6 +102,8 @@ class AccountRepository extends IAccountRepository{
               Get.offAll(()=>DonorHome());
             }else if(user.role==2){
               Get.offAll(()=>ReceiverHome());
+            }else if(user.role==3){
+              Get.offAll(()=>AdminDashboard());
             }
           });
         }else{
@@ -302,5 +305,29 @@ class AccountRepository extends IAccountRepository{
     }
 
   }
+
+
+  @override
+  Future<List<UserData>> getUsersByRole(BuildContext context, int roleId) async{
+    List<UserData> users=[];
+    try{
+      QuerySnapshot<Map<String,dynamic>> snapshots=await FirebaseFirestore.instance.collection("userData").where("role",isEqualTo: roleId).get();
+      if(snapshots.docs.length>0){
+        for(int i=0;i<snapshots.docs.length;i++){
+          UserData u=UserData.fromJson(snapshots.docs[i].data());
+          u.userId=snapshots.docs[i].id;
+          users.add(u);
+        }
+        return users;
+      }else{
+        Utils.showError(context,"No Users Found");
+      }
+
+    }catch(e){
+      throw e;
+    }
+    return users;
+  }
+
 
 }

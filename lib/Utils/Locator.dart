@@ -1,4 +1,6 @@
+import 'package:food_donation/IRepositories/IAdminRepository.dart';
 import 'package:food_donation/IRepositories/IReceiverRepository.dart';
+import 'package:food_donation/Repositories/AdminRepository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../IRepositories/IAccountRepository.dart';
@@ -14,4 +16,5 @@ void SetupLocator(){
   locator.registerLazySingleton<IAccountRepository>(() =>AccountRepository());
   locator.registerLazySingleton<IReceiverRepository>(() =>ReceiverRepository());
   locator.registerLazySingleton<IDonorRepository>(() =>DonorRepository());
+  locator.registerLazySingleton<IAdminRepository>(() =>AdminRepository());
 }

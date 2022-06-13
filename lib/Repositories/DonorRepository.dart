@@ -20,6 +20,7 @@ class DonorRepository extends IDonorRepository{
         await uploadImage(_image, donation);
       }
       await FirebaseFirestore.instance.collection("Donations").doc().set(donation.toJson());
+      await FirebaseFirestore.instance.collection("Counts").doc("91yPvyPpYYxKWXefTyh7").update({"pendingDonations": FieldValue.increment(1)});
     }catch(e){
       throw e;
     }
@@ -93,6 +94,7 @@ class DonorRepository extends IDonorRepository{
     try{
       if(FirebaseAuth.instance.currentUser!=null){
         await FirebaseFirestore.instance.collection("foodRequest").doc(donationId).update({"status":FirebaseAuth.instance.currentUser?.uid});
+        await FirebaseFirestore.instance.collection("Counts").doc("91yPvyPpYYxKWXefTyh7").update({"pendingRequests": FieldValue.increment(-1),"fulfilledRequests":FieldValue.increment(1)});
       }
     }catch(e){
       throw e;

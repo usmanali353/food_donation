@@ -1,12 +1,9 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_donation/IRepositories/IReceiverRepository.dart';
 import 'package:food_donation/Models/Donation.dart';
-import 'package:get/get.dart';
-
 import '../Utils/Utils.dart';
 
 class ReceiverRepository extends IReceiverRepository{
@@ -14,6 +11,7 @@ class ReceiverRepository extends IReceiverRepository{
   Future requestFood(BuildContext context, Donation donation) async{
     try{
      await FirebaseFirestore.instance.collection("foodRequest").doc().set(donation.toJsonForFoodRequest());
+     await FirebaseFirestore.instance.collection("Counts").doc("91yPvyPpYYxKWXefTyh7").update({"pendingRequests": FieldValue.increment(1)});
     }catch(e){
       throw e;
     }
@@ -64,6 +62,7 @@ class ReceiverRepository extends IReceiverRepository{
     try{
       if(FirebaseAuth.instance.currentUser!=null){
         await FirebaseFirestore.instance.collection("Donations").doc(donationId).update({"status":FirebaseAuth.instance.currentUser?.uid});
+        await FirebaseFirestore.instance.collection("Counts").doc("91yPvyPpYYxKWXefTyh7").update({"pendingDonations": FieldValue.increment(-1),"fulfilledDonations":FieldValue.increment(1)});
       }
     }catch(e){
       throw e;
