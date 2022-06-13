@@ -10,7 +10,6 @@ class LoginScreen extends GetView<AccountController> {
     return Obx(() => controller.isLoadingRegister.value?LoadingScreen():Scaffold(
         body: SingleChildScrollView(
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 16.0,top: 30),
