@@ -8,7 +8,6 @@ import '../../Utils/Utils.dart';
 
 class ProfileScreen extends GetView<AccountController> {
 
-
   @override
   Widget build(BuildContext context) {
     if(controller.userData.value.name==null||controller.userData.value.role==null){
