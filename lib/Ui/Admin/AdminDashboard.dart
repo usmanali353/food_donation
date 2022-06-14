@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_donation/Controllers/AccountController.dart';
+import 'package:food_donation/Ui/Admin/DonationListAdmin.dart';
+import 'package:food_donation/Ui/Admin/RequestsListForAdmin.dart';
 import 'package:food_donation/Ui/Admin/UsersList.dart';
 import 'package:food_donation/Utils/StatefulWrapper.dart';
 import 'package:get/get.dart';
@@ -242,35 +244,40 @@ class AdminDashboard extends StatelessWidget{
                       child: Row(
                         children: [
                           Expanded(
-                            child: Card(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Color2, width: 2)
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 30,
-                                      color: Color2,
-                                      child: Center(
-                                        child: Text("Pending Requests", style: TextStyle(
-                                            color: Color6,
+                            child: InkWell(
+                              onTap: (){
+                                Get.to(()=>RequestsListForAdmin(0));
+                              },
+                              child: Card(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(color: Color2, width: 2)
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 30,
+                                        color: Color2,
+                                        child: Center(
+                                          child: Text("Pending Requests", style: TextStyle(
+                                              color: Color6,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17
+                                          ),),
+                                        ),
+                                      ),
+                                      SizedBox(height: 25,),
+                                      Center(
+                                        child: Text(adminController.counts.value.pendingRequests.toString(), style: TextStyle(
+                                            color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 17
+                                            fontSize: 20
                                         ),),
                                       ),
-                                    ),
-                                    SizedBox(height: 25,),
-                                    Center(
-                                      child: Text(adminController.counts.value.pendingRequests.toString(), style: TextStyle(
-                                          color: Color2,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20
-                                      ),),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -287,35 +294,40 @@ class AdminDashboard extends StatelessWidget{
                       child: Row(
                         children: [
                           Expanded(
-                            child: Card(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Color2, width: 2)
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 30,
-                                      color: Color2,
-                                      child: Center(
-                                        child: Text("Concluded Requests", style: TextStyle(
-                                            color: Color6,
+                            child: InkWell(
+                              onTap: (){
+                                Get.to(()=>RequestsListForAdmin(1));
+                              },
+                              child: Card(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(color: Color2, width: 2)
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 30,
+                                        color: Color2,
+                                        child: Center(
+                                          child: Text("Concluded Requests", style: TextStyle(
+                                              color: Color6,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17
+                                          ),),
+                                        ),
+                                      ),
+                                      SizedBox(height: 25,),
+                                      Center(
+                                        child: Text(adminController.counts.value.fulfilledRequests.toString(), style: TextStyle(
+                                            color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 17
+                                            fontSize: 20
                                         ),),
                                       ),
-                                    ),
-                                    SizedBox(height: 25,),
-                                    Center(
-                                      child: Text(adminController.counts.value.fulfilledRequests.toString(), style: TextStyle(
-                                          color: Color2,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20
-                                      ),),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -332,70 +344,80 @@ class AdminDashboard extends StatelessWidget{
                       child: Row(
                         children: [
                           Expanded(
-                            child:Card(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Color2, width: 2)
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 30,
-                                      color: Color2,
-                                      child: Center(
-                                        child: Text("Pending Donations", style: TextStyle(
-                                            color: Color6,
+                            child:InkWell(
+                              onTap: (){
+                                Get.to(()=>DonationListAdmin(0));
+                              },
+                              child: Card(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(color: Color2, width: 2)
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 30,
+                                        color: Color2,
+                                        child: Center(
+                                          child: Text("Pending Donations", style: TextStyle(
+                                              color: Color6,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17
+                                          ),),
+                                        ),
+                                      ),
+                                      SizedBox(height: 25,),
+                                      Center(
+                                        child: Text(adminController.counts.value.pendingDonations.toString(), style: TextStyle(
+                                            color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 17
+                                            fontSize: 20
                                         ),),
                                       ),
-                                    ),
-                                    SizedBox(height: 25,),
-                                    Center(
-                                      child: Text(adminController.counts.value.pendingDonations.toString(), style: TextStyle(
-                                          color: Color2,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20
-                                      ),),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                           SizedBox(width: 5,),
                           Expanded(
-                            child: Card(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Color2, width: 2)
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 30,
-                                      color: Color2,
-                                      child: Center(
-                                        child: Text("Concluded Donations", style: TextStyle(
-                                            color: Color6,
+                            child: InkWell(
+                              onTap: (){
+                                Get.to(()=>DonationListAdmin(1));
+                              },
+                              child: Card(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(color: Color2, width: 2)
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 30,
+                                        color: Color2,
+                                        child: Center(
+                                          child: Text("Concluded Donations", style: TextStyle(
+                                              color: Color6,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17
+                                          ),),
+                                        ),
+                                      ),
+                                      SizedBox(height: 25,),
+                                      Center(
+                                        child: Text(adminController.counts.value.fulfilledDonations.toString(), style: TextStyle(
+                                            color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 17
+                                            fontSize: 20
                                         ),),
                                       ),
-                                    ),
-                                    SizedBox(height: 25,),
-                                    Center(
-                                      child: Text(adminController.counts.value.fulfilledDonations.toString(), style: TextStyle(
-                                          color: Color2,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20
-                                      ),),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

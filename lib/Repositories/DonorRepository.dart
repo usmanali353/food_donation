@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 //import 'package:http/http.dart' as http;
@@ -102,10 +101,10 @@ class DonorRepository extends IDonorRepository{
   }
 
   @override
-  Future<List<Donation>> getRequestsFulfilledByDonor(BuildContext context) async{
+  Future<List<Donation>> getRequestsFulfilledByDonor(BuildContext context,String? userId) async{
     List<Donation> foodRequests=[];
     try{
-      QuerySnapshot<dynamic> querySnapshot=await FirebaseFirestore.instance.collection("foodRequest").where("status",isEqualTo: FirebaseAuth.instance.currentUser?.uid).get();
+      QuerySnapshot<dynamic> querySnapshot=await FirebaseFirestore.instance.collection("foodRequest").where("status",isEqualTo: userId).get();
       if(querySnapshot.docs.length>0){
         for(int i=0;i<querySnapshot.docs.length;i++){
           foodRequests.add(Donation.fromJsonforFoodRequest(querySnapshot.docs[i].data()));
@@ -122,10 +121,10 @@ class DonorRepository extends IDonorRepository{
   }
 
   @override
-  Future<List<Donation>> getDonationsReceivedByReceivers(BuildContext context) async{
+  Future<List<Donation>> getDonationsReceivedByReceivers(BuildContext context,String? userId) async{
     List<Donation> foodRequests=[];
     try{
-      QuerySnapshot<dynamic> querySnapshot=await FirebaseFirestore.instance.collection("Donations").where("userId",isEqualTo: FirebaseAuth.instance.currentUser?.uid).where("status",isNull: false).get();
+      QuerySnapshot<dynamic> querySnapshot=await FirebaseFirestore.instance.collection("Donations").where("userId",isEqualTo: userId).where("status",isNull: false).get();
       if(querySnapshot.docs.length>0){
         for(int i=0;i<querySnapshot.docs.length;i++){
           Donation donation=Donation.fromJson(querySnapshot.docs[i].data());

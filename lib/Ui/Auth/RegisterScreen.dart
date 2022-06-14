@@ -90,7 +90,7 @@ class RegisterScreen extends GetView<AccountController> {
                                   enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(color: Color1, width: 2.0)
                                   ),
-                                  labelText: "Name",
+                                  labelText: "Name / Organization Name",
                                   labelStyle: TextStyle(color: Color2, fontWeight: FontWeight.bold),
 
                                 ),

@@ -151,11 +151,11 @@ class ReceiverController extends GetxController{
     });
 
  }
- Future getReceivedDonations(BuildContext context)async{
+ Future getReceivedDonations(BuildContext context,String? userId)async{
    bool isConnected = await  Utils.isInternetAvailable();
    if(isConnected){
       fetchingDonationsHistory.value=true;
-     await receiverRepository.getReceivedDonations(context).then((donationsList){
+     await receiverRepository.getReceivedDonations(context,userId!).then((donationsList){
        donated.clear();
        donated.assignAll(donationsList);
        log("Received Donations "+donationsList.length.toString());
@@ -170,11 +170,11 @@ class ReceiverController extends GetxController{
      Utils.showError(context,"Your Device is not connected to Network");
    }
  }
- Future getFulfilledRequests(BuildContext context)async{
+ Future getFulfilledRequests(BuildContext context,String? userId)async{
    bool isConnected = await  Utils.isInternetAvailable();
    if(isConnected){
      fetchingRequestsHistory.value=true;
-     await receiverRepository.getFulFulFilledRequests(context).then((donationsList){
+     await receiverRepository.getFulFulFilledRequests(context,userId!).then((donationsList){
        fulfilledRequests.clear();
        fulfilledRequests.assignAll(donationsList);
        fetchingRequestsHistory.value=false;

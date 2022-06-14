@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../Controllers/AdminController.dart';
 import '../../Controllers/DonorController.dart';
 import '../../Controllers/ReceiverController.dart';
 import '../../Utils/Constants.dart';
@@ -30,12 +31,14 @@ class DonationDetailsScreen extends StatelessWidget{
         }else{
           this.donations.addAll(Get.find<DonorController>().donations);
         }
-      }else{
+      }else if(openedFrom=="Receiver"){
         if(isHistory!=null&&isHistory==true){
           this.donations.addAll(Get.find<ReceiverController>().donated);
         }else{
           this.donations.addAll(Get.find<ReceiverController>().filteredList);
         }
+      }else{
+        this.donations.addAll(Get.find<AdminController>().filteredList);
       }
     }
     return Scaffold(
@@ -57,8 +60,10 @@ class DonationDetailsScreen extends StatelessWidget{
               onPressed: (){
                 if(openedFrom=="Receiver"){
                   Get.find<ReceiverController>().getUserInfoById(context, this.donations[this.index!].status);
-                }else{
+                }else if(openedFrom == "Donor"){
                   Get.find<DonorController>().getUserInfoById(context, this.donations[this.index!].status);
+                }else{
+                  Get.find<AdminController>().getUserInfoById(context, this.donations[this.index!].status);
                 }
               },
               icon: Icon(FontAwesomeIcons.idCard,color: Colors.white,),
@@ -360,7 +365,7 @@ class DonationDetailsScreen extends StatelessWidget{
                                             borderRadius: BorderRadius.circular(8),
                                             border: Border.all(color: Color2, width: 2)
                                         ),
-                                        child: Center(child: FaIcon(FontAwesomeIcons.mapMarkedAlt, color: Color2,)),
+                                        child: Center(child: FaIcon(FontAwesomeIcons.mapLocationDot, color: Color2,)),
                                       )),
                                   SizedBox(width: 5,),
                                   Expanded(
@@ -398,8 +403,8 @@ class DonationDetailsScreen extends StatelessWidget{
               child:  Expanded(
                 child: InkWell(
                   onTap: ()async{
-                    await launch(
-                        "tel://${this.donations[index!].phone}");
+                    await launchUrl(
+                      Uri.parse("tel://${this.donations[index!].phone}")  );
                   },
                   child: Container(
                     //height: 650,
@@ -441,7 +446,7 @@ class DonationDetailsScreen extends StatelessWidget{
                                             borderRadius: BorderRadius.circular(8),
                                             border: Border.all(color: Color2, width: 2)
                                         ),
-                                        child: Center(child: FaIcon(FontAwesomeIcons.phoneAlt, color: Color2,)),
+                                        child: Center(child: FaIcon(FontAwesomeIcons.phoneFlip, color: Color2,)),
                                       ),
                                     ),
                                   ],
@@ -525,7 +530,7 @@ class DonationDetailsScreen extends StatelessWidget{
                                                 borderRadius: BorderRadius.circular(8),
                                                 border: Border.all(color: Color2, width: 2)
                                             ),
-                                            child: Center(child: FaIcon(FontAwesomeIcons.mapMarkedAlt, color: Color2,)),
+                                            child: Center(child: FaIcon(FontAwesomeIcons.mapLocationDot, color: Color2,)),
                                           ),
                                         ),
                                       ],
@@ -827,7 +832,7 @@ class DonationDetailsScreen extends StatelessWidget{
                                             borderRadius: BorderRadius.circular(8),
                                             border: Border.all(color: Color2, width: 2)
                                         ),
-                                        child: Center(child: FaIcon(FontAwesomeIcons.mapMarkedAlt, color: Color2,)),
+                                        child: Center(child: FaIcon(FontAwesomeIcons.mapLocationDot, color: Color2,)),
                                       )),
                                   SizedBox(width: 5,),
                                   Expanded(
@@ -865,8 +870,8 @@ class DonationDetailsScreen extends StatelessWidget{
               child:  Expanded(
                 child: InkWell(
                   onTap: ()async{
-                    await launch(
-                        "tel://${this.donations[index!].phone}");
+                    await launchUrl(
+                        Uri.parse("tel://${this.donations[index!].phone}"));
                   },
                   child: Container(
                     //height: 650,
@@ -908,7 +913,7 @@ class DonationDetailsScreen extends StatelessWidget{
                                             borderRadius: BorderRadius.circular(8),
                                             border: Border.all(color: Color2, width: 2)
                                         ),
-                                        child: Center(child: FaIcon(FontAwesomeIcons.phoneAlt, color: Color2,)),
+                                        child: Center(child: FaIcon(FontAwesomeIcons.phoneFlip, color: Color2,)),
                                       ),
                                     ),
                                   ],
@@ -992,7 +997,7 @@ class DonationDetailsScreen extends StatelessWidget{
                                                 borderRadius: BorderRadius.circular(8),
                                                 border: Border.all(color: Color2, width: 2)
                                             ),
-                                            child: Center(child: FaIcon(FontAwesomeIcons.mapMarkedAlt, color: Color2,)),
+                                            child: Center(child: FaIcon(FontAwesomeIcons.mapLocationDot, color: Color2,)),
                                           ),
                                         ),
                                       ],

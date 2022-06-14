@@ -10,25 +10,27 @@ import '../DetailPages/FoodRequestDetailPage.dart';
 class FulFilledRequests extends GetView<ReceiverController> {
 
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  String? userId;
+  FulFilledRequests({this.userId});
+
   @override
   Widget build(BuildContext context) {
 
     return StatefulWrapper(onInit:(){
-      print("onInit");
-      controller.getFulfilledRequests(context);
+      controller.getFulfilledRequests(context,userId);
     }, child: Scaffold(
       body: RefreshIndicator(
           key: _refreshIndicatorKey,
           onRefresh: () async
           {
-            return await controller.getFulfilledRequests(context);
+              return await controller.getFulfilledRequests(context,userId);
           },
           child: Obx(() => ListView.builder(itemCount:!controller.fetchingRequestsHistory.value?controller.fulfilledRequests.length:5, itemBuilder: (context, index){
             return !controller.fetchingRequestsHistory.value? Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
-                  Get.to(()=>FoodRequestDetailPage("Receiver",index,isHistory: true,));
+                    Get.to(()=>FoodRequestDetailPage("Receiver",index,isHistory: true,));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,

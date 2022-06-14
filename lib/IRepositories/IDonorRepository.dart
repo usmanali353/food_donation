@@ -8,6 +8,6 @@ abstract class IDonorRepository{
   Future<List<Donation>> getDonations(BuildContext context,String userId);
   Future<List<Donation>> getFoodRequests(BuildContext context);
   Future fulfillRequest(BuildContext context,String userId);
-  Future<List<Donation>> getRequestsFulfilledByDonor(BuildContext context);
-  Future<List<Donation>> getDonationsReceivedByReceivers(BuildContext context);
+  Future<List<Donation>> getRequestsFulfilledByDonor(BuildContext context,String? userId);
+  Future<List<Donation>> getDonationsReceivedByReceivers(BuildContext context,String? userId);
 }

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:food_donation/Controllers/AdminController.dart';
 import 'package:food_donation/Controllers/DonorController.dart';
 import 'package:food_donation/Controllers/ReceiverController.dart';
 import 'package:food_donation/Utils/LoadingScreen.dart';
@@ -23,6 +26,8 @@ class FoodRequestDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if(requests.length==0){
+      log("isHistory "+isHistory.toString());
+      log("Role:  "+openedFrom!);
       if(openedFrom=="Donor"){
 
         if(isHistory!=null&&isHistory==true){
@@ -32,12 +37,14 @@ class FoodRequestDetailPage extends StatelessWidget {
         }
         print(this.requests[index!].lat.toString());
         print(this.requests[index!].lng.toString());
-      }else{
+      }else if(openedFrom=="Receiver"){
         if(isHistory!=null&&isHistory==true){
           this.requests.addAll(Get.find<ReceiverController>().fulfilledRequests);
         }else{
           this.requests.addAll(Get.find<ReceiverController>().foodRequests);
         }
+      }else if(openedFrom=="Admin"){
+        this.requests.addAll(Get.find<AdminController>().filteredList);
       }
     }
     return openedFrom=="Donor"?Obx(() => !Get.find<DonorController>().isDonating.value?Scaffold(
@@ -66,10 +73,12 @@ class FoodRequestDetailPage extends StatelessWidget {
             visible: isHistory==true,
             child: IconButton(
               onPressed: (){
-                if(openedFrom=="Receiver"){
+                if(openedFrom =="Receiver"){
                   Get.find<ReceiverController>().getUserInfoById(context, this.requests[this.index!].status);
-                }else{
+                }else if(openedFrom == "Donor"){
                   Get.find<DonorController>().getUserInfoById(context, this.requests[this.index!].status);
+                }else{
+                  Get.find<AdminController>().getUserInfoById(context, this.requests[this.index!].status);
                 }
               },
               icon: Icon(FontAwesomeIcons.idCard,color: Colors.white,),
@@ -327,7 +336,7 @@ class FoodRequestDetailPage extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(8),
                                             border: Border.all(color: Color2, width: 2)
                                         ),
-                                        child: Center(child: FaIcon(FontAwesomeIcons.mapMarkedAlt, color: Color2,)),
+                                        child: Center(child: FaIcon(FontAwesomeIcons.mapLocationDot, color: Color2,)),
                                       )),
                                   SizedBox(width: 5,),
                                   Expanded(
@@ -368,7 +377,7 @@ class FoodRequestDetailPage extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(8),
                                             border: Border.all(color: Color2, width: 2)
                                         ),
-                                        child: Center(child: FaIcon(FontAwesomeIcons.phoneAlt, color: Color2,)),
+                                        child: Center(child: FaIcon(FontAwesomeIcons.phoneFlip, color: Color2,)),
                                       )),
                                   SizedBox(width: 5,),
                                   Expanded(
@@ -404,8 +413,8 @@ class FoodRequestDetailPage extends StatelessWidget {
             child: Expanded(
               child: InkWell(
                 onTap: ()async{
-                  await launch(
-                      "tel://${this.requests[index!].phone}");
+                  await launchUrl(
+                     Uri.parse("tel://${this.requests[index!].phone}") );
                 },
                 child: Container(
                   //height: 650,
@@ -447,7 +456,7 @@ class FoodRequestDetailPage extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(8),
                                           border: Border.all(color: Color2, width: 2)
                                       ),
-                                      child: Center(child: FaIcon(FontAwesomeIcons.phoneAlt, color: Color2,)),
+                                      child: Center(child: FaIcon(FontAwesomeIcons.phoneFlip, color: Color2,)),
                                     ),
                                   ),
                                 ],
@@ -531,7 +540,7 @@ class FoodRequestDetailPage extends StatelessWidget {
                                               borderRadius: BorderRadius.circular(8),
                                               border: Border.all(color: Color2, width: 2)
                                           ),
-                                          child: Center(child: FaIcon(FontAwesomeIcons.mapMarkedAlt, color: Color2,)),
+                                          child: Center(child: FaIcon(FontAwesomeIcons.mapLocationDot, color: Color2,)),
                                         ),
                                       ),
                                     ],
@@ -570,7 +579,22 @@ class FoodRequestDetailPage extends StatelessWidget {
               },
               icon: Icon(FontAwesomeIcons.handHoldingHeart),
             ),
-          )
+          ),
+          Visibility(
+            visible: isHistory==true,
+            child: IconButton(
+              onPressed: (){
+                if(openedFrom=="Receiver"){
+                  Get.find<ReceiverController>().getUserInfoById(context, this.requests[this.index!].status);
+                }else if(openedFrom=="Donor"){
+                  Get.find<DonorController>().getUserInfoById(context, this.requests[this.index!].status);
+                }else{
+                  Get.find<AdminController>().getUserInfoById(context, this.requests[this.index!].status);
+                }
+              },
+              icon: Icon(FontAwesomeIcons.idCard,color: Colors.white,),
+            ),
+          ),
         ],
       ),
       body: Column(
@@ -823,7 +847,7 @@ class FoodRequestDetailPage extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(8),
                                             border: Border.all(color: Color2, width: 2)
                                         ),
-                                        child: Center(child: FaIcon(FontAwesomeIcons.mapMarkedAlt, color: Color2,)),
+                                        child: Center(child: FaIcon(FontAwesomeIcons.mapLocationDot, color: Color2,)),
                                       )),
                                   SizedBox(width: 5,),
                                   Expanded(
@@ -864,7 +888,7 @@ class FoodRequestDetailPage extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(8),
                                             border: Border.all(color: Color2, width: 2)
                                         ),
-                                        child: Center(child: FaIcon(FontAwesomeIcons.phoneAlt, color: Color2,)),
+                                        child: Center(child: FaIcon(FontAwesomeIcons.phoneFlip, color: Color2,)),
                                       )),
                                   SizedBox(width: 5,),
                                   Expanded(
@@ -900,8 +924,8 @@ class FoodRequestDetailPage extends StatelessWidget {
             child: Expanded(
               child: InkWell(
                 onTap: ()async{
-                  await launch(
-                      "tel://${this.requests[index!].phone}");
+                  await launchUrl(
+                    Uri.parse("tel://${this.requests[index!].phone}")  );
                 },
                 child: Container(
                   //height: 650,
@@ -943,7 +967,7 @@ class FoodRequestDetailPage extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(8),
                                           border: Border.all(color: Color2, width: 2)
                                       ),
-                                      child: Center(child: FaIcon(FontAwesomeIcons.phoneAlt, color: Color2,)),
+                                      child: Center(child: FaIcon(FontAwesomeIcons.phoneFlip, color: Color2,)),
                                     ),
                                   ),
                                 ],
@@ -1027,7 +1051,7 @@ class FoodRequestDetailPage extends StatelessWidget {
                                               borderRadius: BorderRadius.circular(8),
                                               border: Border.all(color: Color2, width: 2)
                                           ),
-                                          child: Center(child: FaIcon(FontAwesomeIcons.mapMarkedAlt, color: Color2,)),
+                                          child: Center(child: FaIcon(FontAwesomeIcons.mapLocationDot, color: Color2,)),
                                         ),
                                       ),
                                     ],

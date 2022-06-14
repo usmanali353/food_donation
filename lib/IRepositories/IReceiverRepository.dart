@@ -6,6 +6,6 @@ abstract class IReceiverRepository{
   Future<List<Donation>> getFoodRequests(BuildContext context,String userId);
   Future<List<Donation>> getUnReceivedDonations(BuildContext context);
   Future receiveDonation(BuildContext context,String donationId);
-  Future<List<Donation>> getReceivedDonations(BuildContext context);
-  Future<List<Donation>> getFulFulFilledRequests(BuildContext context);
+  Future<List<Donation>> getReceivedDonations(BuildContext context,String userId);
+  Future<List<Donation>> getFulFulFilledRequests(BuildContext context,String userId);
 }

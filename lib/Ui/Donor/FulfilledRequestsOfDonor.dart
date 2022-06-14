@@ -9,12 +9,16 @@ import '../../Utils/Utils.dart';
 import '../DetailPages/FoodRequestDetailPage.dart';
 
 class FulfilledRequestsOfDonor extends GetView<DonorController> {
+  String? userId;
+
+  FulfilledRequestsOfDonor({this.userId});
+
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
     return StatefulWrapper(
       onInit: (){
-        controller.getFoodRequestsFulfilledByDonor(context);
+        controller.getFoodRequestsFulfilledByDonor(context,userId);
       },
       child: Scaffold(
 
@@ -22,14 +26,14 @@ class FulfilledRequestsOfDonor extends GetView<DonorController> {
             key: _refreshIndicatorKey,
             onRefresh: () async
             {
-              return await controller.getFoodRequestsFulfilledByDonor(context);
+              return await controller.getFoodRequestsFulfilledByDonor(context,userId);
             },
             child: Obx(() => ListView.builder(itemCount:!controller.fetchingRequestsHistory.value?controller.fulfilledRequests.length:5, itemBuilder: (context, index){
               return !controller.fetchingRequestsHistory.value? Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: InkWell(
                   onTap: (){
-                    Get.to(()=>FoodRequestDetailPage("Donor",index,isHistory: true));
+                      Get.to(()=>FoodRequestDetailPage("Donor",index,isHistory: true));
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,

@@ -70,10 +70,10 @@ class ReceiverRepository extends IReceiverRepository{
   }
 
   @override
-  Future<List<Donation>> getReceivedDonations(BuildContext context) async{
+  Future<List<Donation>> getReceivedDonations(BuildContext context,String userId) async{
     List<Donation> donations=[];
     try{
-      QuerySnapshot<dynamic> querySnapshot=await FirebaseFirestore.instance.collection("Donations").where("status",isEqualTo: FirebaseAuth.instance.currentUser?.uid).get();
+      QuerySnapshot<dynamic> querySnapshot=await FirebaseFirestore.instance.collection("Donations").where("status",isEqualTo: userId).get();
       if(querySnapshot.docs.length>0){
         for(int i=0;i<querySnapshot.docs.length;i++){
           Donation donation=Donation.fromJson(querySnapshot.docs[i].data());
@@ -90,10 +90,10 @@ class ReceiverRepository extends IReceiverRepository{
   }
 
   @override
-  Future<List<Donation>> getFulFulFilledRequests(BuildContext context) async{
+  Future<List<Donation>> getFulFulFilledRequests(BuildContext context,String userid) async{
     List<Donation> foodRequests=[];
     try{
-      QuerySnapshot<dynamic> querySnapshot=await FirebaseFirestore.instance.collection("foodRequest").where("userId",isEqualTo: FirebaseAuth.instance.currentUser?.uid).where("status",isNull:false).get();
+      QuerySnapshot<dynamic> querySnapshot=await FirebaseFirestore.instance.collection("foodRequest").where("userId",isEqualTo: userid).where("status",isNull:false).get();
       if(querySnapshot.docs.length>0){
         for(int i=0;i<querySnapshot.docs.length;i++){
           Donation donation=Donation.fromJson(querySnapshot.docs[i].data());

@@ -1,6 +1,6 @@
-import 'dart:developer';
 
 import 'package:avatar_stack/avatar_stack.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_donation/Controllers/ReceiverController.dart';
@@ -13,24 +13,29 @@ import '../../Utils/Utils.dart';
 
 class ReceivedDonations extends GetView<ReceiverController> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  String? userId;
+
+  ReceivedDonations({this.userId});
+
   @override
   Widget build(BuildContext context) {
 
     return StatefulWrapper(onInit:(){
-      controller.getReceivedDonations(context);
+
+      controller.getReceivedDonations(context,userId);
     }, child: Scaffold(
       body: RefreshIndicator(
           key: _refreshIndicatorKey,
           onRefresh: () async{
-            return await controller.getReceivedDonations(context);
+            return await controller.getReceivedDonations(context,FirebaseAuth.instance.currentUser?.uid);
           },
           child: Obx(() => ListView.builder(itemCount:!controller.fetchingDonationsHistory.value?controller.donated.length:5, itemBuilder: (context, index){
             return !controller.fetchingDonationsHistory.value? Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: (){
+                    Get.to(()=>DonationDetailsScreen(index,"Receiver",isHistory:true,));
                   //log(controller.donations[index].id);
-                  Get.to(()=>DonationDetailsScreen(index,"Receiver",isHistory:true,));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,

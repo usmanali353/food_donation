@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_donation/Ui/Donor/DonationsReceivedByRecievers.dart';
 import 'package:food_donation/Ui/Receiver/FulfilledRequests.dart';
 import 'package:food_donation/Ui/Receiver/ReceivedDonations.dart';
 import 'package:get/get.dart';
@@ -8,6 +7,10 @@ import '../../Utils/Constants.dart';
 
 class ReceiverHistory extends StatelessWidget {
   final  receiverController = Get.put(ReceiverController());
+  String? userId;
+
+  ReceiverHistory({this.userId});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -53,8 +56,8 @@ class ReceiverHistory extends StatelessWidget {
                 ]),
           ),
           body: TabBarView(children: [
-            ReceivedDonations(),
-            FulFilledRequests()
+            ReceivedDonations(userId: userId,),
+            FulFilledRequests(userId: userId,)
           ]),
         )
     );

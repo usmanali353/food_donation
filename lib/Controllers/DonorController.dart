@@ -146,12 +146,12 @@ class DonorController extends GetxController{
 
   }
 
-  Future getFoodRequestsFulfilledByDonor(BuildContext context) async{
+  Future getFoodRequestsFulfilledByDonor(BuildContext context,String? userId) async{
     Utils.isInternetAvailable().then((isConnected)async{
       if(isConnected){
         if(FirebaseAuth.instance.currentUser!=null){
           fetchingRequestsHistory.value=true;
-           await donorRepository.getRequestsFulfilledByDonor(context).then((donationList){
+           await donorRepository.getRequestsFulfilledByDonor(context,userId).then((donationList){
              fulfilledRequests.clear();
              fulfilledRequests.assignAll(donationList);
              fetchingRequestsHistory.value=false;
@@ -166,12 +166,12 @@ class DonorController extends GetxController{
       }
     });
   }
-  Future getDonationsReceivedByReceivers(BuildContext context) async{
+  Future getDonationsReceivedByReceivers(BuildContext context,String? userId) async{
     Utils.isInternetAvailable().then((isConnected)async{
       if(isConnected){
         if(FirebaseAuth.instance.currentUser!=null){
            fetchingDonationsHistory.value=true;
-           await donorRepository.getDonationsReceivedByReceivers(context).then((donationList){
+           await donorRepository.getDonationsReceivedByReceivers(context,userId).then((donationList){
              donated.clear();
              donated.assignAll(donationList);
              fetchingDonationsHistory.value=false;

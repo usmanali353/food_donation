@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_donation/Ui/Receiver/ReceiverHistory.dart';
@@ -51,10 +52,10 @@ class ReceiverHome extends StatelessWidget {
                       Divider(color: Color3,thickness: 1.0),
                       ListTile(
                         onTap: (){
-                          Get.to(()=>ReceiverHistory());
+                          Get.to(()=>ReceiverHistory(userId:FirebaseAuth.instance.currentUser?.uid));
                         },
                         title: Text("History",style: TextStyle(color: Color2,fontSize: 20,fontWeight: FontWeight.bold),),
-                        leading: FaIcon(FontAwesomeIcons.history, color: Color3,),
+                        leading: FaIcon(FontAwesomeIcons.clockRotateLeft, color: Color3,),
                       ),
                       Divider(color: Color3,thickness: 1.0),
                       ListTile(
@@ -62,7 +63,7 @@ class ReceiverHome extends StatelessWidget {
                           Get.find<AccountController>().logOut();
                         },
                         title: Text("Log Out",style: TextStyle(color: Color2,fontSize: 20,fontWeight: FontWeight.bold),),
-                        leading: FaIcon(FontAwesomeIcons.signOutAlt, color: Color3,),
+                        leading: FaIcon(FontAwesomeIcons.rightFromBracket, color: Color3,),
                       ),
                     ],
                   ),

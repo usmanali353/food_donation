@@ -1,3 +1,6 @@
+
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -267,7 +270,7 @@ class AccountRepository extends IAccountRepository{
                                                     borderRadius: BorderRadius.circular(8),
                                                     border: Border.all(color: Color2, width: 2)
                                                 ),
-                                                child: Center(child: FaIcon(FontAwesomeIcons.phoneAlt, color: Color2,)),
+                                                child: Center(child: FaIcon(FontAwesomeIcons.phoneFlip, color: Color2,)),
                                               )),
                                           SizedBox(width: 5,),
                                           Expanded(
@@ -311,13 +314,14 @@ class AccountRepository extends IAccountRepository{
   Future<List<UserData>> getUsersByRole(BuildContext context, int roleId) async{
     List<UserData> users=[];
     try{
-      QuerySnapshot<Map<String,dynamic>> snapshots=await FirebaseFirestore.instance.collection("userData").where("role",isEqualTo: roleId).get();
+      QuerySnapshot<Map<String,dynamic>> snapshots=await FirebaseFirestore.instance.collection("UserData").where("role",isEqualTo: roleId).get();
       if(snapshots.docs.length>0){
         for(int i=0;i<snapshots.docs.length;i++){
           UserData u=UserData.fromJson(snapshots.docs[i].data());
           u.userId=snapshots.docs[i].id;
           users.add(u);
         }
+        log("Users Length"+users.length.toString());
         return users;
       }else{
         Utils.showError(context,"No Users Found");

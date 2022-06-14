@@ -9,16 +9,20 @@ import '../../Utils/Utils.dart';
 import '../DetailPages/DonationDetails.dart';
 
 class DonationsReceivedByReceivers extends GetView<DonorController> {
+  String? userId;
+
+  DonationsReceivedByReceivers({this.userId});
+
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
     return StatefulWrapper(onInit:(){
-      controller.getDonationsReceivedByReceivers(context);
+      controller.getDonationsReceivedByReceivers(context,userId);
     }, child: Scaffold(
       body: RefreshIndicator(
           key: _refreshIndicatorKey,
           onRefresh: () async{
-            return await controller.getDonationsReceivedByReceivers(context);
+            return await controller.getDonationsReceivedByReceivers(context,userId);
           },
           child: Obx(() => ListView.builder(itemCount:!controller.fetchingDonationsHistory.value?controller.donated.length:5, itemBuilder: (context, index){
             return !controller.fetchingDonationsHistory.value? Padding(

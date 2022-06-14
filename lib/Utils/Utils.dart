@@ -971,9 +971,14 @@ class Utils {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child:   Center(
-                                child: Text("happylife@gmail.com", style: TextStyle(
-                                    color: Color2, fontSize: 16, fontWeight: FontWeight.bold
-                                ),
+                                child: Card(
+                                  child: Container(
+                                    width: 100,
+                                    child: Text("happylife@gmail.com", style: TextStyle(
+                                        color: Color2, fontSize: 16, fontWeight: FontWeight.bold
+                                    ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -991,7 +996,7 @@ class Utils {
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(color: Color2, width: 2),
                             ),
-                            child: Center(child: FaIcon(FontAwesomeIcons.phoneAlt, color: Color2, size: 18,)),
+                            child: Center(child: FaIcon(FontAwesomeIcons.phoneFlip, color: Color2, size: 18,)),
                           ),
                           SizedBox(width: 4,),
                           Expanded(
@@ -1002,10 +1007,15 @@ class Utils {
                                 border: Border.all(color: Color1, width: 2),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child:   Center(
-                                child: Text("090078601", style: TextStyle(
-                                    color: Color2, fontSize: 16, fontWeight: FontWeight.bold
-                                ),
+                              child: Center(
+                                child: Card(
+                                  child: Container(
+                                    width: 100,
+                                    child: Text("090078601", style: TextStyle(
+                                        color: Color2, fontSize: 16, fontWeight: FontWeight.bold
+                                    ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
