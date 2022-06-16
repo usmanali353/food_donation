@@ -6,6 +6,7 @@ import 'package:food_donation/Ui/Admin/RequestsListForAdmin.dart';
 import 'package:food_donation/Ui/Admin/UsersList.dart';
 import 'package:food_donation/Utils/StatefulWrapper.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Controllers/AdminController.dart';
 import '../../Utils/Constants.dart';
 import '../../Utils/Utils.dart';
@@ -28,6 +29,19 @@ class AdminDashboard extends StatelessWidget{
             centerTitle: true,
             backgroundColor: Color2,
             actions: [
+              IconButton(
+                  onPressed: ()async{
+                    Get.changeThemeMode(Get.isDarkMode?ThemeMode.light:ThemeMode.dark);
+                    SharedPreferences prefs= await SharedPreferences.getInstance();
+                    if(prefs.getBool("isDark")==null){
+                      prefs.setBool("isDark", true);
+                      Get.find<AccountController>().isDarkTheme.value=true;
+                    }else{
+                      prefs.setBool("isDark", !prefs.getBool("isDark")!);
+                      Get.find<AccountController>().isDarkTheme.value=!prefs.getBool("isDark")!;
+                    }
+                  },
+                  icon: FaIcon(FontAwesomeIcons.circleHalfStroke, color: Color6)),
               IconButton(
                 onPressed: (){
                   Get.find<AccountController>().logOut();

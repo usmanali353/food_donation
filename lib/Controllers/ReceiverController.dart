@@ -180,7 +180,7 @@ class ReceiverController extends GetxController{
        fetchingRequestsHistory.value=false;
      }).catchError((error){
        fetchingRequestsHistory.value=false;
-       Utils.showError(context, error.toString());
+       Utils.showError(context,"No Requests Found");
      });
 
    }else{

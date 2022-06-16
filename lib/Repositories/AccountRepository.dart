@@ -241,7 +241,7 @@ class AccountRepository extends IAccountRepository{
                                                 ),
                                                 child: Center(
                                                   child:Text(user.email!=null?user.email!:"",style: TextStyle(
-                                                      color: Color2, fontSize: 20, fontWeight: FontWeight.bold
+                                                      color: Color2, fontSize: 17, fontWeight: FontWeight.bold
                                                   ),),
                                                 ),
 

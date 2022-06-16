@@ -103,7 +103,7 @@ class UsersList extends GetView<AdminController>{
                                         ),
                                         child:   Center(
                                           child: Text(controller.usersList[index].email, style: TextStyle(
-                                              color: Color2, fontSize: 16, fontWeight: FontWeight.bold
+                                              color: Color2, fontSize: 14, fontWeight: FontWeight.bold
                                           ),
                                           ),
                                         ),

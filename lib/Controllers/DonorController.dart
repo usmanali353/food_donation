@@ -177,7 +177,7 @@ class DonorController extends GetxController{
              fetchingDonationsHistory.value=false;
           }).catchError((error){
              fetchingDonationsHistory.value=false;
-             Utils.showError(context,error.toString());
+             Utils.showError(context,"No Receiver has Received your Donation Yet");
           });
 
         }

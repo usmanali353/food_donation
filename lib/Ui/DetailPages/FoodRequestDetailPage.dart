@@ -653,7 +653,7 @@ class FoodRequestDetailPage extends StatelessWidget {
                                     width: MediaQuery.of(context).size.width,
                                     height: 45,
                                     child: Text(this.requests[index!].description,
-                                      maxLines: 3,
+                                      maxLines: 2,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Color2,fontSize: 17, fontWeight: FontWeight.bold
