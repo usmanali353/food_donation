@@ -4,6 +4,8 @@ import 'package:food_donation/IRepositories/IAdminRepository.dart';
 import 'package:food_donation/Models/Counts.dart';
 import 'package:food_donation/Models/Donation.dart';
 
+import '../Utils/Utils.dart';
+
 class AdminRepository extends IAdminRepository{
   @override
   Future<Counts> getDashboardCounts(BuildContext context) async{
@@ -63,5 +65,23 @@ class AdminRepository extends IAdminRepository{
       throw e;
     }
     return requests;
+  }
+
+  @override
+  Future<List<Donation>> getPricedDonationAdmin(BuildContext context) async{
+    List<Donation> donations=[];
+    try{
+      QuerySnapshot<dynamic> querySnapshot=await FirebaseFirestore.instance.collection("PricedDonations").get();
+      if(querySnapshot.docs.length>0){
+        for(int i=0;i<querySnapshot.docs.length;i++){
+          donations.add(Donation.fromJsonforPricedDonation(querySnapshot.docs[i].data()));
+        }
+      }else{
+        Utils.showError(context,"No Donations yet");
+      }
+      return donations;
+    }catch(e){
+      throw e;
+    }
   }
 }

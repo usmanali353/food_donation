@@ -10,4 +10,6 @@ abstract class IDonorRepository{
   Future fulfillRequest(BuildContext context,String userId);
   Future<List<Donation>> getRequestsFulfilledByDonor(BuildContext context,String? userId);
   Future<List<Donation>> getDonationsReceivedByReceivers(BuildContext context,String? userId);
+  Future addPricedDonations(BuildContext context,Donation donation,XFile image);
+  Future<List<Donation>> getPricedDonation(BuildContext context,String? userId);
 }

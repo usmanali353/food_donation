@@ -48,6 +48,10 @@ class Utils {
         return await ImagePicker().pickMultiImage(imageQuality: 25);
   }
 
+  static Future<XFile?> pickSingleImage()async{
+    return await ImagePicker().pickImage(source:ImageSource.gallery,imageQuality: 25);
+  }
+
  static Future<bool> isInternetAvailable() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile) {

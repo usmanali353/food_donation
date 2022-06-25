@@ -48,6 +48,7 @@ class DonorRepository extends IDonorRepository{
     Reference ref = FirebaseStorage.instance.ref('donationImages/${Uuid().v1()}');
     await ref.putFile(File(image.path));
     donation.images!.add(await ref.getDownloadURL());
+    donation.singleImage=donation.images![0];
   }
 
   // Future uploadImage(XFile image,Donation donation)async{
@@ -136,6 +137,36 @@ class DonorRepository extends IDonorRepository{
         Utils.showError(context," No Donations Recieved By Recweivers yet");
       }
       return foodRequests;
+    }catch(e){
+      throw e;
+    }
+  }
+
+  @override
+  Future addPricedDonations(BuildContext context, Donation donation, XFile image) async{
+   try{
+     await uploadImage(image, donation);
+     await FirebaseFirestore.instance.collection("PricedDonations").doc().set(donation.toJsonForPricedDonation());
+     await FirebaseFirestore.instance.collection("Counts").doc("91yPvyPpYYxKWXefTyh7").update({"pricedDonations": FieldValue.increment(1)});
+   }catch(e){
+     throw e;
+   }
+  }
+
+  @override
+  Future<List<Donation>> getPricedDonation(BuildContext context, String? userId) async{
+    List<Donation> donations=[];
+    try{
+      QuerySnapshot<dynamic> querySnapshot=await FirebaseFirestore.instance.collection("PricedDonations").where("userId",isEqualTo: userId).get();
+      if(querySnapshot.docs.length>0){
+        for(int i=0;i<querySnapshot.docs.length;i++){
+          donations.add(Donation.fromJsonforPricedDonation(querySnapshot.docs[i].data()));
+          log(donations[i].toJson().toString());
+        }
+      }else{
+        Utils.showError(context,"No Donations yet");
+      }
+      return donations;
     }catch(e){
       throw e;
     }

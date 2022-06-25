@@ -224,11 +224,11 @@ class AddDonation extends GetView<DonorController> {
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Container(
-                    height: 90,
-                    child: Obx(() =>  Visibility(
-                      visible: controller.selectedFiles.length>0,
-                      child: ListView.builder(
+                child: Visibility(
+                  visible: controller.selectedFiles.length>0,
+                  child: Container(
+                      height: 90,
+                      child: Obx(() =>  ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: controller.selectedFiles.length,
                           itemBuilder:(context,index){
@@ -237,8 +237,8 @@ class AddDonation extends GetView<DonorController> {
                               height: 70,
                               child: Image.file(File(controller.selectedFiles[index].path)),
                             );
-                          }),
-                    ),)
+                          }),)
+                  ),
                 ),
               ),
               Container(

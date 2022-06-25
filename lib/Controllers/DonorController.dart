@@ -18,15 +18,17 @@ import '../Utils/Locator.dart';
 import '../Utils/Utils.dart';
 
 class DonorController extends GetxController{
-  late TextEditingController descriptionTextEditingController,addressTextEditingController,personsQuantityTextEditingController,expiryDateTextEditingController;
+  late TextEditingController descriptionTextEditingController,addressTextEditingController,personsQuantityTextEditingController,expiryDateTextEditingController,priceTextEditingController;
   int? selectedCategoryId,selectedDeliveryTypeId;
   Rx<DateTime> selectedDate=DateTime.now().obs;
  var selectedFiles=[].obs;
  List<XFile> selectedImages=[];
+  var selectedImage=XFile("").obs;
   String? selectedCategory,selectedDeliveryType;
   Address? address;
   Rx<bool> isDonating=false.obs;
   var donations=[].obs;
+  var pricedDonations=[].obs;
   var donated=[].obs;
   var fulfilledRequests=[].obs;
   var foodRequests=[].obs;
@@ -38,17 +40,19 @@ class DonorController extends GetxController{
   Rx<bool> fetchingPendingDonations=false.obs;
   Rx<bool> fetchingRequestsHistory=false.obs;
   Rx<bool> fetchingDonationsHistory=false.obs;
-
+  Rx<bool> fetchingPricedDonation=false.obs;
   Rx<double> sliderValue=1.0.obs;
   List<String> categories=["Cooked Food","Fruits","Vegetables","Sweets","Chocolates","Cakes","Biscuits","Milk","Grains","Mix Items","Others",];
   List<String> deliveryTypes=["Pick Up","Drop Off"];
   late IDonorRepository donorRepository;
+
   onInit(){
     super.onInit();
     descriptionTextEditingController = TextEditingController();
     addressTextEditingController = TextEditingController();
     personsQuantityTextEditingController = TextEditingController();
     expiryDateTextEditingController = TextEditingController();
+    priceTextEditingController= TextEditingController();
     donorRepository=locator<IDonorRepository>();
   }
 
@@ -99,7 +103,73 @@ class DonorController extends GetxController{
       }
     });
   }
+  void donatePricedFood(BuildContext context){
+    Utils.isInternetAvailable().then((isConnected){
+      if(isConnected){
+        if(selectedCategory==null){
+          Utils.showError(context,"Select Category");
+        }else if(descriptionTextEditingController.text.isEmpty){
+          Utils.showError(context,"Please Specify Name");
+        }else if(personsQuantityTextEditingController.text.isEmpty){
+          Utils.showError(context,"Please Specify Quantity");
+        }else if(priceTextEditingController.text.isEmpty){
+          Utils.showError(context,"Please Specify Price");
+        }else if(expiryDateTextEditingController.text.isEmpty){
+          Utils.showError(context,"Please Select Expiry Date");
+        }else if(addressTextEditingController.text.isEmpty){
+          Utils.showError(context,"Specify Your Address");
+        }else if(address==null){
+          Utils.showError(context,"Specify Your Address");
+        }else if(selectedImage.value.path==""){
+          Utils.showError(context, "Select Image");
+        }else{
+          if(FirebaseAuth.instance.currentUser!=null){
+            SharedPreferences.getInstance().then((prefs){
+              isDonating.value=true;
+              if(prefs.getString("user_data")!=null){
+                UserData user= UserData.userFromJson(prefs.getString("user_data")!);
+                donorRepository.addPricedDonations(context,Donation(images: [],name: user.name,phone: user.phone,description: descriptionTextEditingController.text,userId: FirebaseAuth.instance.currentUser?.uid,price: double.parse(priceTextEditingController.text),address: address?.address,lat: address?.latitude,lng: address?.longitude,category: selectedCategoryId, availableUpTo: expiryDateTextEditingController.text,createdOn: DateTime.now().toIso8601String(),personsQuantity: int.parse(personsQuantityTextEditingController.text)), selectedImage.value).then((value){
+                  descriptionTextEditingController.text="";
+                  addressTextEditingController.text = "";
+                  personsQuantityTextEditingController.text= "";
+                  selectedCategory=null;
+                  selectedImage.value=XFile("");
+                  priceTextEditingController.text="";
+                  expiryDateTextEditingController.text="";
+                  isDonating.value=false;
+                  Get.offAll(()=>DonorHome());
+                }).catchError((error){
+                  isDonating.value=false;
+                  Utils.showError(context,error.toString());
+                });
+              }
 
+            });
+          }
+        }
+      }else{
+        Utils.showError(context,"Your Device is Not Connected to Network");
+      }
+    });
+  }
+
+  Future getPricedDonation(BuildContext context,String userId)async{
+    Utils.isInternetAvailable().then((isConnected)async{
+      if(isConnected){
+        fetchingPricedDonation.value=true;
+       await donorRepository.getPricedDonation(context, userId).then((donationList){
+         pricedDonations.clear();
+         pricedDonations.assignAll(donationList);
+         fetchingPricedDonation.value=false;
+       }).catchError((error){
+         Utils.showError(context,error.toString());
+         fetchingPricedDonation.value=false;
+       });
+      }else{
+        Utils.showError(context,"Device is Not Connected to Internet");
+      }
+    });
+  }
   Future getDonations(BuildContext context) async{
     Utils.isInternetAvailable().then((isConnected)async{
       if(isConnected){
@@ -121,7 +191,6 @@ class DonorController extends GetxController{
       }
     });
   }
-
   Future getFoodRequests(BuildContext context) async{
     Utils.isInternetAvailable().then((isConnected)async{
       if(isConnected){
@@ -186,6 +255,7 @@ class DonorController extends GetxController{
       }
     });
   }
+
   void fulfillRequest(BuildContext context,String donationId){
     Utils.isInternetAvailable().then((isConnected){
       if(isConnected){
@@ -210,6 +280,7 @@ class DonorController extends GetxController{
       Utils.showError(context, error.toString());
     });
   }
+
   void filterByDistance(BuildContext context)async{
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if(!serviceEnabled){

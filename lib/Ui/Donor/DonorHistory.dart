@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_donation/Controllers/DonorController.dart';
 import 'package:food_donation/Ui/Donor/DonationsReceivedByRecievers.dart';
+import 'package:food_donation/Ui/Donor/PricedDonationsList.dart';
 import 'package:get/get.dart';
 import '../../Utils/Constants.dart';
 import 'FulfilledRequestsOfDonor.dart';
@@ -15,7 +16,7 @@ class DonorHistory extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
 
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             iconTheme: IconThemeData(
@@ -27,10 +28,9 @@ class DonorHistory extends StatelessWidget {
             backgroundColor: Color2,
             elevation: 8,
             bottom: TabBar(
-
+               isScrollable: true,
                 labelColor: Color2,
                 unselectedLabelColor: Color6,
-                indicatorPadding: EdgeInsets.only(left: 10, right: 10),
                 indicator: ShapeDecoration(
                     color: Color1,
                     shape: BeveledRectangleBorder(
@@ -54,11 +54,19 @@ class DonorHistory extends StatelessWidget {
                     ),
                   ),
 
+                  Tab(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text("Paid Donations", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                    ),
+                  ),
+
                 ]),
           ),
           body: TabBarView(children: [
             DonationsReceivedByReceivers(userId: userId,),
-            FulfilledRequestsOfDonor(userId: userId,)
+            FulfilledRequestsOfDonor(userId: userId,),
+            PricedDonationList(userId)
           ]),
         )
     );

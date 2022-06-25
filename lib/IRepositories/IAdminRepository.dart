@@ -7,4 +7,5 @@ abstract class IAdminRepository{
   Future<Counts> getDashboardCounts(BuildContext context);
   Future<List<Donation>> getRequestsByType(BuildContext context,int type);
   Future<List<Donation>> getDonationsByType(BuildContext context,int type);
+  Future<List<Donation>> getPricedDonationAdmin(BuildContext context);
 }

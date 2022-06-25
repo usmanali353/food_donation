@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../Controllers/AdminController.dart';
 import '../../Utils/Constants.dart';
 import '../../Utils/Utils.dart';
+import 'PricedDonationListAdmin.dart';
 
 class AdminDashboard extends StatelessWidget{
   final adminController = Get.put(AdminController());
@@ -28,20 +29,20 @@ class AdminDashboard extends StatelessWidget{
             ),),
             centerTitle: true,
             backgroundColor: Color2,
+            leading: IconButton(
+                onPressed: ()async{
+                  Get.changeThemeMode(Get.isDarkMode?ThemeMode.light:ThemeMode.dark);
+                  SharedPreferences prefs= await SharedPreferences.getInstance();
+                  if(prefs.getBool("isDark")==null){
+                    prefs.setBool("isDark", true);
+                    Get.find<AccountController>().isDarkTheme.value=true;
+                  }else{
+                    prefs.setBool("isDark", !prefs.getBool("isDark")!);
+                    Get.find<AccountController>().isDarkTheme.value=!prefs.getBool("isDark")!;
+                  }
+                },
+                icon: FaIcon(FontAwesomeIcons.circleHalfStroke, color: Color6)),
             actions: [
-              IconButton(
-                  onPressed: ()async{
-                    Get.changeThemeMode(Get.isDarkMode?ThemeMode.light:ThemeMode.dark);
-                    SharedPreferences prefs= await SharedPreferences.getInstance();
-                    if(prefs.getBool("isDark")==null){
-                      prefs.setBool("isDark", true);
-                      Get.find<AccountController>().isDarkTheme.value=true;
-                    }else{
-                      prefs.setBool("isDark", !prefs.getBool("isDark")!);
-                      Get.find<AccountController>().isDarkTheme.value=!prefs.getBool("isDark")!;
-                    }
-                  },
-                  icon: FaIcon(FontAwesomeIcons.circleHalfStroke, color: Color6)),
               IconButton(
                 onPressed: (){
                   Get.find<AccountController>().logOut();
@@ -197,7 +198,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.numberOfDonors.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 20
+                                            fontSize: 22
                                         ),),
                                       ),
                                     ],
@@ -237,7 +238,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.numberOfReceivers.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 20
+                                            fontSize: 22
                                         ),),
                                       ),
                                     ],
@@ -287,7 +288,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.pendingRequests.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 20
+                                            fontSize: 22
                                         ),),
                                       ),
                                     ],
@@ -296,17 +297,6 @@ class AdminDashboard extends StatelessWidget{
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 130,
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Row(
-                        children: [
                           Expanded(
                             child: InkWell(
                               onTap: (){
@@ -337,7 +327,57 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.fulfilledRequests.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 20
+                                            fontSize: 22
+                                        ),),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 130,
+                    child: Padding(
+                      padding: const EdgeInsets.all(3.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: (){
+                                Get.to(()=>PricedDonationListAdmin());
+                              },
+                              child: Card(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(color: Color2, width: 2)
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        height: 30,
+                                        color: Color2,
+                                        child: Center(
+                                          child: Text("Paid Donations", style: TextStyle(
+                                              color: Color6,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17
+                                          ),),
+                                        ),
+                                      ),
+                                      SizedBox(height: 25,),
+                                      Center(
+                                        child: Text(adminController.counts.value.pricedDonations.toString(), style: TextStyle(
+                                            color: Color2,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 22
                                         ),),
                                       ),
                                     ],
@@ -387,7 +427,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.pendingDonations.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 20
+                                            fontSize: 22
                                         ),),
                                       ),
                                     ],
@@ -427,7 +467,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.fulfilledDonations.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 20
+                                            fontSize: 22
                                         ),),
                                       ),
                                     ],

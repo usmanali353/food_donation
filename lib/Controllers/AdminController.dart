@@ -19,6 +19,8 @@ class AdminController extends GetxController{
   Rx<bool> userListLoading=false.obs;
   Rx<bool> foodRequestsLoading=false.obs;
   Rx<bool> donationsLoading=false.obs;
+  Rx<bool> fetchingPricedDonation=false.obs;
+  var pricedDonations=[].obs;
   late IAdminRepository adminRepository;
   late IAccountRepository accountRepository;
   var _selected=[].obs;
@@ -178,6 +180,23 @@ class AdminController extends GetxController{
 
     }).catchError((error){
       Utils.showError(context, error.toString());
+    });
+  }
+  Future getPricedDonation(BuildContext context)async{
+    Utils.isInternetAvailable().then((isConnected)async{
+      if(isConnected){
+        fetchingPricedDonation.value=true;
+        await adminRepository.getPricedDonationAdmin(context).then((donationList){
+          pricedDonations.clear();
+          pricedDonations.assignAll(donationList);
+          fetchingPricedDonation.value=false;
+        }).catchError((error){
+          Utils.showError(context,error.toString());
+          fetchingPricedDonation.value=false;
+        });
+      }else{
+        Utils.showError(context,"Device is Not Connected to Internet");
+      }
     });
   }
 }

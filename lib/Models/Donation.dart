@@ -15,7 +15,9 @@ class Donation {
     this.createdOn,
     this.personsQuantity,
     this.images,
-    this.id
+    this.id,
+    this.price,
+    this.singleImage
   });
 
   static Donation donationFromJson(String str) => Donation.fromJson(json.decode(str));
@@ -30,11 +32,11 @@ class Donation {
   String? phone;
   double? lat;
   double? lng;
-  String? createdOn,availableUpTo,status;
+  String? createdOn,availableUpTo,status,singleImage;
   List<dynamic>? images=[];
   int? deliveryType,category;
   int? personsQuantity;
-
+  double? price;
   factory Donation.fromJson(Map<String, dynamic> json) => Donation(
       userId: json["userId"],
       name: json["name"],
@@ -69,6 +71,22 @@ class Donation {
     "deliveryType":deliveryType
   };
 
+  Map<String, dynamic> toJsonForPricedDonation() => {
+    "userId": userId,
+    "name": name,
+    "Quantity": personsQuantity,
+    "itemName": description,
+    "image": singleImage,
+    "address": address,
+    "phone": phone,
+    "lat": lat,
+    "lng": lng,
+    "availableUpTo": availableUpTo,
+    "category":category,
+    "createdOn":createdOn,
+    "price":price
+  };
+
   Map<String, dynamic> toJsonForFoodRequest() => {
     "userId": userId,
     "name": name,
@@ -97,5 +115,20 @@ class Donation {
       createdOn: json["createdOn"],
       personsQuantity: json["personsQuantity"],
       deliveryType:json["deliveryType"]
+  );
+  factory Donation.fromJsonforPricedDonation(Map<String, dynamic> json) => Donation(
+      userId: json["userId"],
+      name: json["name"],
+      description: json["itemName"],
+      address: json["address"],
+      singleImage: json["image"],
+      price: json["price"],
+      phone: json["phone"],
+      availableUpTo: json["availableUpTo"],
+      lat: json["lat"].toDouble(),
+      lng: json["lng"].toDouble(),
+      category: json["category"],
+      createdOn: json["createdOn"],
+      personsQuantity: json["Quantity"],
   );
 }

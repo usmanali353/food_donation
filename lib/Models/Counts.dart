@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class Counts{
-  int? fulfilledRequests,fulfilledDonations,pendingDonations,pendingRequests,numberOfDonors,numberOfReceivers;
+  int? fulfilledRequests,fulfilledDonations,pendingDonations,pendingRequests,numberOfDonors,numberOfReceivers,pricedDonations;
 
   Counts({
     this.fulfilledRequests,
@@ -9,7 +9,8 @@ class Counts{
     this.pendingDonations,
     this.pendingRequests,
     this.numberOfDonors,
-    this.numberOfReceivers
+    this.numberOfReceivers,
+    this.pricedDonations
   });
   static Counts countsFromJson(String str) => Counts.fromJson(json.decode(str));
 
@@ -20,5 +21,6 @@ class Counts{
       pendingRequests: json["pendingRequests"],
       numberOfDonors: json["numberOfDonors"],
       numberOfReceivers: json["numberOfReceivers"],
+    pricedDonations: json["pricedDonations"]
   );
 }
