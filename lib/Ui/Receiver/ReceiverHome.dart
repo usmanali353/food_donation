@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:food_donation/Ui/Receiver/PaidDonationsListReceiver.dart';
 import 'package:food_donation/Ui/Receiver/ReceiverHistory.dart';
 import 'package:food_donation/Ui/Receiver/ReceiverRequestList.dart';
 import 'package:food_donation/Ui/Receiver/UnReceivedDonations.dart';
@@ -16,8 +17,7 @@ class ReceiverHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-
-        length: 2,
+        length: 3,
         child: Scaffold(
           drawer: Drawer(
             child: ListView(
@@ -238,6 +238,7 @@ class ReceiverHome extends StatelessWidget {
             backgroundColor: Color2,
             elevation: 8,
             bottom: TabBar(
+              isScrollable: true,
               labelColor: Color2,
                 unselectedLabelColor: Color6,
                 //indicatorPadding: EdgeInsets.only(left: 10, right: 10),
@@ -252,20 +253,20 @@ class ReceiverHome extends StatelessWidget {
                 ),
                 tabs: [
                   Tab(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text("Unreceived Donations", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
-                    ),
+                    child: Text("Unreceived Donations", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
                   ),
                   Tab(
                     child: Text("Pending Requests", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
                   ),
-
+                  Tab(
+                    child: Text("Paid Donations", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                  ),
                 ]),
           ),
           body: TabBarView(children: [
             UnReceivedDonations(),
-            ReceiverRequestList()
+            ReceiverRequestList(),
+            PaidDonationListReceiver()
           ]),
         )
     );

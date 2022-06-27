@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:food_donation/Controllers/ReceiverController.dart';
 import 'package:get/get.dart';
-
-import '../../Controllers/AdminController.dart';
 import '../../Utils/Constants.dart';
 import '../../Utils/StatefulWrapper.dart';
 import '../../Utils/Utils.dart';
 
-class PricedDonationListAdmin extends GetView<AdminController>{
+class PaidDonationListReceiver extends GetView<ReceiverController>{
+
+
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
     return StatefulWrapper(onInit:(){
       controller.getPricedDonation(context);
     }, child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color2,
-        title: Text("Paid Donations",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
-        centerTitle: true,
-
-      ),
       body: RefreshIndicator(
           key: _refreshIndicatorKey,
           onRefresh: () async{

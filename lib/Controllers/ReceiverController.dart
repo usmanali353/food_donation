@@ -10,8 +10,10 @@ import 'package:food_donation/Utils/Address.dart';
 import 'package:food_donation/Utils/Constants.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../IRepositories/IAdminRepository.dart';
 import '../Utils/Locator.dart';
 import '../Utils/Utils.dart';
 import 'AccountController.dart';
@@ -32,6 +34,7 @@ class ReceiverController extends GetxController{
  var _selected=[].obs;
  Rx<double> sliderValue=1.0.obs;
  late IReceiverRepository receiverRepository;
+ late IAdminRepository adminRepository;
  Rx<bool> addingFoodRequest=false.obs;
 
  //variables used to check if currently List Data is Loading
@@ -39,7 +42,8 @@ class ReceiverController extends GetxController{
  Rx<bool> fetchingPendingDonations=false.obs;
  Rx<bool> fetchingRequestsHistory=false.obs;
  Rx<bool> fetchingDonationsHistory=false.obs;
-
+ Rx<bool> fetchingPricedDonation=false.obs;
+ var pricedDonations=[].obs;
 
   void onInit(){
     super.onInit();
@@ -47,6 +51,7 @@ class ReceiverController extends GetxController{
     addressTextEditingController = TextEditingController();
     personsQuantityTextEditingController = TextEditingController();
     receiverRepository=locator<IReceiverRepository>();
+    adminRepository=locator<IAdminRepository>();
   }
 
   void requestFood(BuildContext context){
@@ -120,8 +125,13 @@ class ReceiverController extends GetxController{
      await receiverRepository.getUnReceivedDonations(context).then((donationsList){
        donations.clear();
        filteredList.clear();
-       filteredList.assignAll(donationsList);
-       donations.assignAll(donationsList);
+       for(int i=0;i<donationsList.length;i++){
+         DateTime d = DateFormat("dd-MM-yyyy").parse(donationsList[i].availableUpTo!);
+         if(DateTime.now().isBefore(d)){
+           filteredList.assignAll(donationsList);
+           donations.assignAll(donationsList);
+         }
+       }
        fetchingPendingDonations.value=false;
        log("Un Received Donations "+donationsList.length.toString());
      }).catchError((error){
@@ -186,6 +196,28 @@ class ReceiverController extends GetxController{
    }else{
      Utils.showError(context,"Your Device is not connected to Network");
    }
+ }
+ Future getPricedDonation(BuildContext context)async{
+   Utils.isInternetAvailable().then((isConnected)async{
+     if(isConnected){
+       fetchingPricedDonation.value=true;
+       await adminRepository.getPricedDonationAdmin(context).then((donationList){
+         pricedDonations.clear();
+         for(int i=0;i<donationList.length;i++){
+           DateTime d = DateFormat("dd-MM-yyyy").parse(donationList[i].availableUpTo!);
+           if(DateTime.now().isBefore(d)){
+             pricedDonations.assignAll(donationList);
+           }
+         }
+         fetchingPricedDonation.value=false;
+       }).catchError((error){
+         Utils.showError(context,error.toString());
+         fetchingPricedDonation.value=false;
+       });
+     }else{
+       Utils.showError(context,"Device is Not Connected to Internet");
+     }
+   });
  }
  void getUserInfoById(BuildContext context,String userId){
    addingFoodRequest.value=true;
