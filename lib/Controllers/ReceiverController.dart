@@ -31,6 +31,7 @@ class ReceiverController extends GetxController{
   var donated=[].obs;
  var fulfilledRequests=[].obs;
  var filteredList=[].obs;
+ var filteredPaidDonations=[].obs;
  var _selected=[].obs;
  Rx<double> sliderValue=1.0.obs;
  late IReceiverRepository receiverRepository;
@@ -128,8 +129,8 @@ class ReceiverController extends GetxController{
        for(int i=0;i<donationsList.length;i++){
          DateTime d = DateFormat("dd-MM-yyyy").parse(donationsList[i].availableUpTo!);
          if(DateTime.now().isBefore(d)){
-           filteredList.assignAll(donationsList);
-           donations.assignAll(donationsList);
+           filteredList.assign(donationsList[i]);
+           donations.assign(donationsList[i]);
          }
        }
        fetchingPendingDonations.value=false;
@@ -203,10 +204,12 @@ class ReceiverController extends GetxController{
        fetchingPricedDonation.value=true;
        await adminRepository.getPricedDonationAdmin(context).then((donationList){
          pricedDonations.clear();
+         filteredPaidDonations.clear();
          for(int i=0;i<donationList.length;i++){
            DateTime d = DateFormat("dd-MM-yyyy").parse(donationList[i].availableUpTo!);
            if(DateTime.now().isBefore(d)){
-             pricedDonations.assignAll(donationList);
+             pricedDonations.assign(donationList[i]);
+             filteredPaidDonations.assign(donationList[i]);
            }
          }
          fetchingPricedDonation.value=false;
@@ -453,5 +456,64 @@ class ReceiverController extends GetxController{
          )
      );
    });
+ }
+
+ Widget buildChipsForPaidDonation(BuildContext context) {
+   List<Widget> chips =[];
+
+   for (int i = 0; i < categories.length; i++) {
+     _selected.add(false);
+     FilterChip filterChip = FilterChip(
+       selected: _selected[i],
+       label: Text(categories[i], style: TextStyle(color: Color6, fontWeight: FontWeight.bold)),
+       // avatar: FlutterLogo(),
+       elevation: 5,
+       pressElevation: 5,
+       //shadowColor: Colors.teal,
+       backgroundColor: Color2,
+       selectedColor: Color1,
+       onSelected: (bool selected) {
+         for(int j=0;j<_selected.length;j++){
+           if(_selected[j]){
+             _selected[j]=false;
+           }
+         }
+         _selected[i] = selected;
+         if(_selected[i]){
+
+           Utils.isInternetAvailable().then((result){
+             if(result){
+               filteredPaidDonations.clear();
+               for(Donation d in pricedDonations){
+                 if(d.category==i+1){
+                   filteredPaidDonations.add(d);
+                 }
+               }
+             }else{
+               Utils.showError(context, "Network Error");
+             }
+           });
+         }else{
+           filteredPaidDonations.clear();
+           filteredPaidDonations.assignAll(pricedDonations);
+           // WidgetsBinding.instance
+           //     .addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
+         }
+
+
+       },
+     );
+
+     chips.add(Padding(
+         padding: EdgeInsets.symmetric(horizontal: 10),
+         child: filterChip
+     ));
+   }
+
+   return ListView(
+     // This next line does the trick.
+     scrollDirection: Axis.horizontal,
+     children: chips,
+   );
  }
 }

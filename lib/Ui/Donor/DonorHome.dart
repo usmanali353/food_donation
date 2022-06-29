@@ -1,11 +1,8 @@
-import 'package:avatar_stack/avatar_stack.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_donation/Controllers/AccountController.dart';
 import 'package:food_donation/Controllers/DonorController.dart';
-import 'package:food_donation/Ui/DetailPages/DonationDetails.dart';
-import 'package:food_donation/Ui/Donor/AddPricedDonation.dart';
 import 'package:food_donation/Ui/Donor/DonorHistory.dart';
 import 'package:food_donation/Ui/Donor/FoodRequestListForDonor.dart';
 import 'package:food_donation/Ui/Donor/PendingDonations.dart';
@@ -13,9 +10,7 @@ import 'package:food_donation/Ui/Donor/PricedDonationsList.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Utils/Constants.dart';
-import '../../Utils/Utils.dart';
 import '../Auth/ProfileScreen.dart';
-import 'AddDonation.dart';
 
 class DonorHome extends StatelessWidget {
   final  donorController = Get.put(DonorController());

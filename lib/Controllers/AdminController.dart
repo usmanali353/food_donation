@@ -15,6 +15,7 @@ class AdminController extends GetxController{
   var requestListForAdmin=[].obs;
   var donationListForAdmin=[].obs;
   var filteredList=[].obs;
+  var filteredPaidDonations=[].obs;
   Rx<bool> isDashboardLoading=false.obs;
   Rx<bool> userListLoading=false.obs;
   Rx<bool> foodRequestsLoading=false.obs;
@@ -188,7 +189,9 @@ class AdminController extends GetxController{
         fetchingPricedDonation.value=true;
         await adminRepository.getPricedDonationAdmin(context).then((donationList){
           pricedDonations.clear();
+          filteredPaidDonations.clear();
           pricedDonations.assignAll(donationList);
+          filteredPaidDonations.assignAll(donationList);
           fetchingPricedDonation.value=false;
         }).catchError((error){
           Utils.showError(context,error.toString());
@@ -198,5 +201,63 @@ class AdminController extends GetxController{
         Utils.showError(context,"Device is Not Connected to Internet");
       }
     });
+  }
+  Widget buildChipsForPaidDonation(BuildContext context) {
+    List<Widget> chips =[];
+
+    for (int i = 0; i < categories.length; i++) {
+      _selected.add(false);
+      FilterChip filterChip = FilterChip(
+        selected: _selected[i],
+        label: Text(categories[i], style: TextStyle(color: Color6, fontWeight: FontWeight.bold)),
+        // avatar: FlutterLogo(),
+        elevation: 5,
+        pressElevation: 5,
+        //shadowColor: Colors.teal,
+        backgroundColor: Color2,
+        selectedColor: Color1,
+        onSelected: (bool selected) {
+          for(int j=0;j<_selected.length;j++){
+            if(_selected[j]){
+              _selected[j]=false;
+            }
+          }
+          _selected[i] = selected;
+          if(_selected[i]){
+
+            Utils.isInternetAvailable().then((result){
+              if(result){
+                filteredPaidDonations.clear();
+                for(Donation d in pricedDonations){
+                  if(d.category==i+1){
+                    filteredPaidDonations.add(d);
+                  }
+                }
+              }else{
+                Utils.showError(context, "Network Error");
+              }
+            });
+          }else{
+            filteredPaidDonations.clear();
+            filteredPaidDonations.assignAll(pricedDonations);
+            // WidgetsBinding.instance
+            //     .addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
+          }
+
+
+        },
+      );
+
+      chips.add(Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: filterChip
+      ));
+    }
+
+    return ListView(
+      // This next line does the trick.
+      scrollDirection: Axis.horizontal,
+      children: chips,
+    );
   }
 }
