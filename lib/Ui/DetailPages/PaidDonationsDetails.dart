@@ -75,7 +75,7 @@ class PaidDonationsDetails extends StatelessWidget{
                     Container(
 
                       width: MediaQuery.of(context).size.width,
-                      height: 480,
+                      height: 410,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(bottomRight: Radius.circular(48), bottomLeft: Radius.circular(48)),
                         //color: Color6,

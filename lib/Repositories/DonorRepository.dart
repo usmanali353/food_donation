@@ -90,11 +90,12 @@ class DonorRepository extends IDonorRepository{
   }
 
   @override
-  Future fulfillRequest(BuildContext context, String donationId) async{
+  Future fulfillRequest(BuildContext context, String donationId,String comment,double rating,String ratedFor) async{
     try{
       if(FirebaseAuth.instance.currentUser!=null){
-        await FirebaseFirestore.instance.collection("foodRequest").doc(donationId).update({"status":FirebaseAuth.instance.currentUser?.uid});
+        await FirebaseFirestore.instance.collection("foodRequest").doc(donationId).update({"status":FirebaseAuth.instance.currentUser?.uid,"ratedByName":FirebaseAuth.instance.currentUser?.displayName,"ratedOn":DateTime.now().toIso8601String(),"comment":comment,"rating":rating});
         await FirebaseFirestore.instance.collection("Counts").doc("91yPvyPpYYxKWXefTyh7").update({"pendingRequests": FieldValue.increment(-1),"fulfilledRequests":FieldValue.increment(1)});
+        await FirebaseFirestore.instance.collection("UserData").doc(ratedFor).update({"rating":FieldValue.arrayUnion([{"rating": rating,"ratedByName": FirebaseAuth.instance.currentUser?.displayName,"ratedById": FirebaseAuth.instance.currentUser?.uid,"comment": comment,"donationId": donationId,"ratedOn": DateTime.now().toIso8601String()}])});
       }
     }catch(e){
       throw e;

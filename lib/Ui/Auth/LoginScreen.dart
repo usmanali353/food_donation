@@ -126,6 +126,6 @@ class LoginScreen extends GetView<AccountController> {
             ],
           ),
         )
-    )) ;
+    ));
   }
 }

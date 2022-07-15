@@ -145,15 +145,16 @@ class ReceiverController extends GetxController{
    }
  }
 
- void receiveDonations(BuildContext context,String donationId){
+ void receiveDonations(BuildContext context,String donationId,String comment,double rating,String ratedFor){
     Utils.isInternetAvailable().then((isConnected){
       if(isConnected){
         addingFoodRequest.value=true;
-        receiverRepository.receiveDonation(context, donationId).then((value){
+        receiverRepository.receiveDonation(context, donationId,comment,rating,ratedFor).then((value){
           addingFoodRequest.value=false;
           Get.offAll(()=>ReceiverHome());
         }).catchError((error){
-          Utils.showError(context, error);
+          log(error.toString());
+          Utils.showError(context, error.toString());
           addingFoodRequest.value=false;
         });
       }else{

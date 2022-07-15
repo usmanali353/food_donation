@@ -260,4 +260,12 @@ class AdminController extends GetxController{
       children: chips,
     );
   }
+
+  Future blockUser(BuildContext context,String userId,bool isBlocked)async{
+    accountRepository.blockUser(userId, isBlocked).then((value){
+
+    }).catchError((error){
+      Utils.showError(context,error.toString());
+    });
+  }
 }

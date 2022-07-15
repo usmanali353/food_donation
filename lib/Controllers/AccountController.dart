@@ -6,8 +6,6 @@ import 'package:food_donation/IRepositories/IAccountRepository.dart';
 import 'package:food_donation/Models/userData.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Ui/Auth/SplashScreen.dart';
-import '../Utils/Constants.dart';
 import '../Utils/Locator.dart';
 import '../Utils/Utils.dart';
 
@@ -75,6 +73,7 @@ void onInit() {
                    email: emailTextEditingController.text,
                    name: nameTextEditingController.text,
                    password: passwordTextEditingController.text,
+                   isBlocked: false,
                    role: selectedRole != null
                        ? roles.indexOf(selectedRole!) + 1
                        : 1)).then((value){
@@ -102,7 +101,7 @@ void onInit() {
          }else if(selectedRole==null){
            Utils.showError(context,"Please Select Role");
          }else{
-           accountRepository.registerInDatabase(context,UserData(userId:FirebaseAuth.instance.currentUser?.uid,phone:FirebaseAuth.instance.currentUser?.phoneNumber!=null?FirebaseAuth.instance.currentUser?.phoneNumber:phoneTextEditingController.text,email: FirebaseAuth.instance.currentUser?.email,name: FirebaseAuth.instance.currentUser?.displayName,role: selectedRole!=null?roles.indexOf(selectedRole!)+1:1)).then((value){
+           accountRepository.registerInDatabase(context,UserData(userId:FirebaseAuth.instance.currentUser?.uid,phone:FirebaseAuth.instance.currentUser?.phoneNumber!=null?FirebaseAuth.instance.currentUser?.phoneNumber:phoneTextEditingController.text,email: FirebaseAuth.instance.currentUser?.email,name: FirebaseAuth.instance.currentUser?.displayName,role: selectedRole!=null?roles.indexOf(selectedRole!)+1:1,isBlocked: false)).then((value){
              emailTextEditingController.text="";
              passwordTextEditingController.text="";
              nameTextEditingController.text="";
@@ -215,6 +214,7 @@ void onInit() {
    void logOut()async{
     await accountRepository.logOut();
    }
+
 
 
 }

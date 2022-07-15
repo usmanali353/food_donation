@@ -56,9 +56,32 @@ class ReceivedDonations extends GetView<ReceiverController> {
                             )
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          // crossAxisAlignment: CrossAxisAlignment.end,
+                          //   mainAxisAlignment: MainAxisAlignment.start,
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            controller.donated[index].rating!=null? Container(
+                              height: 25,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                color: Color1,
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  FaIcon(FontAwesomeIcons.solidStar, color: Colors.amberAccent, size: 15,),
+                                  SizedBox(width: 3,),
+                                  Text((() {
+
+                                    return controller.donated[index].rating.toString();
+                                  })(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Color2),),
+                                ],
+                              ),
+                            ):Container(),
+
                             Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Container(

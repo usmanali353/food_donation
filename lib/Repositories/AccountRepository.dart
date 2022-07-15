@@ -100,14 +100,20 @@ class AccountRepository extends IAccountRepository{
           UserData user = UserData.fromJson(documentSnap.data()!);
           SharedPreferences.getInstance().then((prefs){
             print(UserData.userToJson(user));
-            prefs.setString("user_data", UserData.userToJson(user));
-            if(user.role==1){
-              Get.offAll(()=>DonorHome());
-            }else if(user.role==2){
-              Get.offAll(()=>ReceiverHome());
-            }else if(user.role==3){
-              Get.offAll(()=>AdminDashboard());
+
+            if(user.isBlocked==null||!user.isBlocked!){
+              prefs.setString("user_data", UserData.userToJson(user));
+              if(user.role==1){
+                Get.offAll(()=>DonorHome());
+              }else if(user.role==2){
+                Get.offAll(()=>ReceiverHome());
+              }else if(user.role==3){
+                Get.offAll(()=>AdminDashboard());
+              }
+            }else{
+              Utils.showError(context,"Your Account is Blocked");
             }
+
           });
         }else{
           Get.to(()=>RegisterScreen());
@@ -331,6 +337,15 @@ class AccountRepository extends IAccountRepository{
       throw e;
     }
     return users;
+  }
+
+  @override
+  Future blockUser(String userId,bool isBlocked) async{
+    try{
+     await FirebaseFirestore.instance.collection("UserData").doc(userId).update({"isBlocked":isBlocked});
+    }catch(e){
+      throw e;
+    }
   }
 
 

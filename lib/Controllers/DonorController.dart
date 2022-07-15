@@ -259,11 +259,11 @@ class DonorController extends GetxController{
     });
   }
 
-  void fulfillRequest(BuildContext context,String donationId){
+  void fulfillRequest(BuildContext context,String donationId,String comment,double rating,String ratedFor){
     Utils.isInternetAvailable().then((isConnected){
       if(isConnected){
         isDonating.value=true;
-        donorRepository.fulfillRequest(context, donationId).then((value){
+        donorRepository.fulfillRequest(context, donationId,comment,rating,ratedFor).then((value){
           isDonating.value=false;
           Get.offAll(()=>DonorHome());
         }).catchError((error){

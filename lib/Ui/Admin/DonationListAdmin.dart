@@ -21,7 +21,11 @@ class DonationListAdmin extends GetView<AdminController>{
       controller.getDonationsByStatus(context,type);
     }, child: Scaffold(
       appBar: AppBar(
-        title: Text(type==0?"Pending Donations":"Concluded Donations"),
+        title: Text(type==0?"Pending Donations":"Concluded Donations", style: TextStyle(
+          color: Color6,
+          fontWeight: FontWeight.bold,
+          fontSize: 22
+        ),),
         centerTitle: true,
         backgroundColor: Color2,
       ),
@@ -72,9 +76,32 @@ class DonationListAdmin extends GetView<AdminController>{
                                   )
                               ),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.end,
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                // crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  controller.filteredList[index].rating!=null? Container(
+                                    height: 25,
+                                    width: 60,
+                                    decoration: BoxDecoration(
+                                      color: Color1,
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        FaIcon(FontAwesomeIcons.solidStar, color: Colors.amberAccent, size: 15,),
+                                        SizedBox(width: 3,),
+                                        Text((() {
+
+                                          return controller.filteredList[index].rating.toString();
+                                        })(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Color2),),
+                                      ],
+                                    ),
+                                  ):Container(),
+
                                   Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: Container(

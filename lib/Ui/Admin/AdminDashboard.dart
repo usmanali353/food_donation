@@ -198,7 +198,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.numberOfDonors.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 22
+                                            fontSize: 25
                                         ),),
                                       ),
                                     ],
@@ -238,7 +238,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.numberOfReceivers.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 22
+                                            fontSize: 25
                                         ),),
                                       ),
                                     ],
@@ -288,7 +288,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.pendingRequests.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 22
+                                            fontSize: 25
                                         ),),
                                       ),
                                     ],
@@ -327,7 +327,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.fulfilledRequests.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 22
+                                            fontSize: 25
                                         ),),
                                       ),
                                     ],
@@ -377,7 +377,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.pricedDonations.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 22
+                                            fontSize: 25
                                         ),),
                                       ),
                                     ],
@@ -427,7 +427,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.pendingDonations.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 22
+                                            fontSize: 25
                                         ),),
                                       ),
                                     ],
@@ -467,7 +467,7 @@ class AdminDashboard extends StatelessWidget{
                                         child: Text(adminController.counts.value.fulfilledDonations.toString(), style: TextStyle(
                                             color: Color2,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 22
+                                            fontSize: 25
                                         ),),
                                       ),
                                     ],

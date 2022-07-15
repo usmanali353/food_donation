@@ -11,4 +11,5 @@ abstract class IAccountRepository{
   Future logOut();
   Future getUserInfoById(BuildContext context,String userId);
   Future<List<UserData>> getUsersByRole(BuildContext context,int roleId);
+  Future blockUser(String userId,bool isBlocked);
 }
