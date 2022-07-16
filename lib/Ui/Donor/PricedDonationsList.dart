@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_donation/Controllers/DonorController.dart';
 import 'package:food_donation/Ui/DetailPages/PaidDonationsDetails.dart';
+import 'package:food_donation/Ui/Donor/AddPricedDonation.dart';
 import 'package:get/get.dart';
 
 import '../../Utils/Constants.dart';
@@ -19,14 +20,21 @@ class PricedDonationList extends GetView<DonorController>{
     return StatefulWrapper(onInit:(){
       controller.getPricedDonation(context,userId!);
     }, child: Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color2,
+        child: Icon(Icons.add,color: Colors.white,),
+        onPressed: (){
+          Get.to(()=>AddPricedDonation());
+        },
+      ),
       body: RefreshIndicator(
           key: _refreshIndicatorKey,
           onRefresh: () async{
             return await controller.getPricedDonation(context,userId!);
           },
-          child: Obx(() => Column(
+          child: Column(
             children: [
-              Padding(
+              controller.fetchingPricedDonation.value?Obx(() => Padding(
                 padding: const EdgeInsets.all(3.0),
                 child: Container(
                     width: MediaQuery.of(context).size.width,
@@ -34,9 +42,9 @@ class PricedDonationList extends GetView<DonorController>{
                     //color: Colors.white12,
                     child: controller.buildChipsForPaidDonation(context)
                 ),
-              ),
+              )):Container(),
               Expanded(
-                child: ListView.builder(itemCount:!controller.fetchingPricedDonation.value?controller.filteredPaidDonations.length:5, itemBuilder: (context, index){
+                child: Obx(() => ListView.builder(itemCount:!controller.fetchingPricedDonation.value?controller.filteredPaidDonations.length:5, itemBuilder: (context, index){
                   return !controller.fetchingPricedDonation.value? Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
@@ -223,11 +231,11 @@ class PricedDonationList extends GetView<DonorController>{
                       ),
                     ),
                   ):Utils.getDonationListShimmer();
-                }),
+                }),)
               ),
             ],
 
-          ))
+          ) 
       ),
     )) ;
   }

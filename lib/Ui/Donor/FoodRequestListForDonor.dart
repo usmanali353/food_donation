@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_donation/Controllers/DonorController.dart';
 import 'package:food_donation/Utils/StatefulWrapper.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 import '../../Utils/Constants.dart';
@@ -49,7 +48,7 @@ class FoodRequestListForDonor extends GetView<DonorController> {
           {
             return await controller.getFoodRequests(context);
           },
-          child: Obx(() => Column(
+          child:  Obx(() => Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(3.0),

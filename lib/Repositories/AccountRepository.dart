@@ -111,6 +111,10 @@ class AccountRepository extends IAccountRepository{
                 Get.offAll(()=>AdminDashboard());
               }
             }else{
+              if(FirebaseAuth.instance.currentUser!=null&&FirebaseAuth.instance.currentUser?.providerData[0].providerId=="google.com"){
+                 locator<GoogleSignIn>().signOut();
+            }
+             FirebaseAuth.instance.signOut();
               Utils.showError(context,"Your Account is Blocked");
             }
 
