@@ -25,6 +25,7 @@ class AccountRepository extends IAccountRepository{
   Future registerInFirebase(BuildContext context,UserData user) async{
     try{
       await FirebaseAuth.instance.createUserWithEmailAndPassword(email: user.email!, password: user.password!);
+
     } on FirebaseAuthException catch (e) {
       throw e;
     }
@@ -75,6 +76,12 @@ class AccountRepository extends IAccountRepository{
   @override
   Future registerInDatabase(BuildContext context, UserData user) async{
     try{
+      if(user.role==1){
+        await FirebaseFirestore.instance.collection("Counts").doc("91yPvyPpYYxKWXefTyh7").update({"numberOfDonors": FieldValue.increment(1)});
+      }
+      else if(user.role==2){
+        await FirebaseFirestore.instance.collection("Counts").doc("91yPvyPpYYxKWXefTyh7").update({"numberOfReceivers": FieldValue.increment(1)});
+      }
        FirebaseFirestore.instance.collection("UserData").doc(user.userId).set(user.toJson()).then((value){
         SharedPreferences.getInstance().then((prefs){
           print(UserData.userToJson(user));
@@ -84,6 +91,7 @@ class AccountRepository extends IAccountRepository{
           }else if(user.role==2){
             Get.offAll(()=>ReceiverHome());
           }
+
         });
       });
     }catch(e){
